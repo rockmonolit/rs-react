@@ -10,6 +10,19 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint ./src --ext .ts --fix"
   },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix",
+    "*.{js,ts,css,md}": "prettier --write",
+    "*.html": [
+      "eslint",
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
     "eslint-config-prettier": "^8.7.0",
     "prettier": "^2.8.4",
