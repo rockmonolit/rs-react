@@ -6,8 +6,10 @@ class Card extends React.Component {
       <div className="card">
         <div className="cardContent">
           <div className="cardImage">Image</div>
-          <p className="cardTitle">Title</p>
-          <p className="cardText">Text</p>
+          <p className="titleText cardTitle">Title</p>
+          <p className="mainText cardAuthor">Authot</p>
+          <hr></hr>
+          <p className="mainText cardText">Text</p>
         </div>
       </div>
     );
