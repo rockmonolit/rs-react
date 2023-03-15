@@ -50,6 +50,8 @@ a:hover {
   text-align: center;
   align-items: center;
   gap: 1rem;
+  width: 95vw;
+  box-sizing: border-box;
 }
 
 body {
@@ -153,6 +155,24 @@ h1 {
 .button:focus,
 .button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.cardsContainer {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  flex-direction: revert;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.cardImage {
+  width: 200px;
+  padding-top: 100%;
+  position: relative;
+  border-radius: 8px;
+  background-color: #dfdfdf6d;
+
 }
 
 @media (prefers-color-scheme: light) {
