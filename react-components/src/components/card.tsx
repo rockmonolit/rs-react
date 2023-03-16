@@ -1,5 +1,5 @@
 import React from 'react';
-import { getRandomCardInfo, CardInfo } from '../helpers/generateCardData'
+import { getRandomCardInfo, CardInfo } from '../helpers/generateCardData';
 
 class Card extends React.Component {
   render() {

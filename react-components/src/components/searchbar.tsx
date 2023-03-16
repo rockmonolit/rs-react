@@ -1,9 +1,9 @@
 import React from 'react';
 
-class SearchBar extends React.Component<{}, { input: string }> {
+class SearchBar extends React.Component<unknown, { input: string }> {
   constructor(props: { input: string }) {
     super(props);
-    this.state = { input: "" };
+    this.state = { input: '' };
     this.saveInput = this.saveInput.bind(this);
   }
 
@@ -24,24 +24,22 @@ class SearchBar extends React.Component<{}, { input: string }> {
 
   render() {
     return (
-      <section className='searchBar'>
+      <section className="searchBar">
         <form
-          className='form searchCard'
+          className="form searchCard"
           onSubmit={() => {
-            this.setState({ input: "" });
-            localStorage.setItem('input', "");
+            this.setState({ input: '' });
+            localStorage.setItem('input', '');
           }}
         >
           <input
-            type='text'
-            className='input searchCardInput'
-            placeholder='Enter Text Here'
+            type="text"
+            className="input searchCardInput"
+            placeholder="Enter Text Here"
             onInput={this.saveInput}
             value={this.state.input}
           />
-          <button className='button'>
-            Search
-          </button>
+          <button className="button">Search</button>
         </form>
       </section>
     );
