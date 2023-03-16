@@ -9,17 +9,18 @@ class SearchBar extends React.Component<unknown, { input: string }> {
 
   saveInput: React.FormEventHandler<HTMLInputElement> = (event) => {
     this.setState({ input: event.currentTarget.value });
+    localStorage.setItem('input', JSON.stringify(event.currentTarget.value));
   };
 
   componentDidMount() {
     const prevInputValue = localStorage.getItem('input');
     if (prevInputValue) {
-      this.setState({ input: JSON.parse(prevInputValue).input });
+      this.setState({ input: JSON.parse(prevInputValue) });
     }
   }
 
   componentWillUnmount() {
-    localStorage.setItem('input', JSON.stringify(this.state));
+    localStorage.setItem('input', JSON.stringify(this.state.input));
   }
 
   render() {
