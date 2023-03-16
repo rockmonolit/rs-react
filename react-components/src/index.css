@@ -6,7 +6,6 @@ html {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  box-sizing: border-box;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -27,6 +26,8 @@ html {
   text-align: center;
   align-items: center;
   gap: 1rem;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 a {
@@ -188,4 +189,18 @@ h1 {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.titleText {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.cardAuthor {
+  font-style: italic;
+  text-align: justify;
+}
+
+.cardText {
+  text-align: justify;
 }
