@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .tsx",
     "lint:fix": "eslint ./src --ext .tsx --fix",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "test-coverage": "jest --coverage"
   },
   "lint-staged": {
     "*.{js,ts, tsx}": "eslint --fix",
@@ -29,6 +30,8 @@
     }
   },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": ["**/*.{ts,tsx}"],
     "testEnvironment": "jsdom"
   },
   "dependencies": {

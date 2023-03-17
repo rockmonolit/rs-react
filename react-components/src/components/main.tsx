@@ -1,3 +1,4 @@
+import React from 'react';
 import CardList from './cardList';
 import SearchBar from './searchbar';
 

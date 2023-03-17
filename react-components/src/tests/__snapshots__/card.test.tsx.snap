@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should take a snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="card"
+  >
+    <div
+      class="cardContent"
+    >
+      <div
+        class="cardImage"
+      />
+      <p
+        class="titleText cardTitle"
+      >
+        test title
+      </p>
+      <p
+        class="mainText cardAuthor"
+      >
+        test author
+      </p>
+      <hr />
+      <p
+        class="mainText cardText"
+      >
+        test description
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
