@@ -1,17 +1,20 @@
 import React from 'react';
-import { getRandomCardInfo, CardInfo } from '../helpers/generateCardData';
+import { CardInfo } from '../helpers/generateCardData';
 
-class Card extends React.Component {
+class Card extends React.Component<CardInfo> {
+  constructor(props: CardInfo) {
+    super(props);
+  }
+
   render() {
-    const cardInfo: CardInfo = getRandomCardInfo();
     return (
       <div className="card">
         <div className="cardContent">
           <div className="cardImage"></div>
-          <p className="titleText cardTitle">{cardInfo.title}</p>
-          <p className="mainText cardAuthor">{cardInfo.author}</p>
+          <p className="titleText cardTitle">{this.props.title}</p>
+          <p className="mainText cardAuthor">{this.props.author}</p>
           <hr></hr>
-          <p className="mainText cardText">{cardInfo.description}</p>
+          <p className="mainText cardText">{this.props.description}</p>
         </div>
       </div>
     );
