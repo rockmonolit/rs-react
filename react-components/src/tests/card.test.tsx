@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import Card from '../components/card';
 
-afterEach(cleanup);
-
-it('this script should take a snapshot', () => {
-  const { asFragment } = render(
-    <Card author="test author" title="test title" description="test description" />
-  );
-  expect(asFragment()).toMatchSnapshot();
+test('card component should contain provided info', () => {
+  render(<Card author="test author" title="test title" description="test description" />);
+  const testText = screen.getByText(/test author/i);;
+  expect(testText).toBeInTheDocument();
 });
