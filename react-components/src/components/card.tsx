@@ -1,8 +1,13 @@
 import React from 'react';
-import { CardInfo } from '../helpers/generateCardData';
 
-class Card extends React.Component<CardInfo> {
-  constructor(props: CardInfo) {
+export type CardProps = {
+  title: string;
+  author: string;
+  description: string;
+};
+
+class Card extends React.Component<CardProps> {
+  constructor(props: CardProps) {
     super(props);
   }
 

@@ -1,9 +1,3 @@
-export type CardInfo = {
-  title: string;
-  author: string;
-  description: string;
-};
-
 const titleList: string[] = [
   'The Echo Wife',
   'Snow Crash',

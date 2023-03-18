@@ -1,26 +1,30 @@
 import React from 'react';
 
-class SearchBar extends React.Component<unknown, { input: string }> {
-  constructor(props: { input: string }) {
+interface SearchBarState {
+  inputValue: string;
+}
+
+class SearchBar extends React.Component<unknown, SearchBarState> {
+  constructor(props: SearchBarState) {
     super(props);
-    this.state = { input: '' };
+    this.state = { inputValue: '' };
     this.saveInput = this.saveInput.bind(this);
   }
 
   saveInput: React.FormEventHandler<HTMLInputElement> = (event) => {
-    this.setState({ input: event.currentTarget.value });
+    this.setState({ inputValue: event.currentTarget.value });
     localStorage.setItem('input', JSON.stringify(event.currentTarget.value));
   };
 
   componentDidMount() {
     const prevInputValue = localStorage.getItem('input');
     if (prevInputValue) {
-      this.setState({ input: JSON.parse(prevInputValue) });
+      this.setState({ inputValue: JSON.parse(prevInputValue) });
     }
   }
 
   componentWillUnmount() {
-    localStorage.setItem('input', JSON.stringify(this.state.input));
+    localStorage.setItem('input', JSON.stringify(this.state.inputValue));
   }
 
   render() {
@@ -29,7 +33,7 @@ class SearchBar extends React.Component<unknown, { input: string }> {
         <form
           className="form searchCard"
           onSubmit={() => {
-            this.setState({ input: '' });
+            this.setState({ inputValue: '' });
             localStorage.setItem('input', '');
           }}
         >
@@ -38,7 +42,7 @@ class SearchBar extends React.Component<unknown, { input: string }> {
             className="input searchCardInput"
             placeholder="Enter Text Here"
             onInput={this.saveInput}
-            value={this.state.input}
+            value={this.state.inputValue}
           />
           <button className="button">Search</button>
         </form>
