@@ -96,6 +96,15 @@ h1 {
 
 .headerContent {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.headerText {
+  font-weight: 700;
+  color: white;
 }
 
 .navbar {

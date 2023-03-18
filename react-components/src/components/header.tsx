@@ -1,7 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-class Header extends React.Component {
+export type HeaderProps = {
+  currentPage: string;
+};
+
+class Header extends React.Component<HeaderProps> {
+  constructor(props: HeaderProps) {
+    super(props);
+  }
+
   render() {
     return (
       <header className="header">
@@ -17,6 +25,7 @@ class Header extends React.Component {
               404
             </NavLink>
           </nav>
+          <p className="currentRoute headerText">Current page: {this.props.currentPage}</p>
         </div>
       </header>
     );

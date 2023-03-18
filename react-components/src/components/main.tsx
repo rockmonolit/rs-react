@@ -1,13 +1,17 @@
 import React from 'react';
 import CardList from './cardList';
 import SearchBar from './searchbar';
+import Header from './header';
 
 function MainPage() {
   return (
     <>
-      <h1>Main Page</h1>
-      <SearchBar />
-      <CardList />
+      <Header currentPage="Main" />
+      <div className="wrapper">
+        <h1>Main Page</h1>
+        <SearchBar />
+        <CardList />
+      </div>
     </>
   );
 }
