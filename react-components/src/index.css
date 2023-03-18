@@ -42,6 +42,14 @@ a:hover {
   color: #535bf2;
 }
 
+hr {
+  width: 100%;
+}
+
+p {
+  margin: 0;
+}
+
 .wrapper {
   max-width: 1280px;
   padding: 0.5rem 1rem;
@@ -172,8 +180,13 @@ h1 {
   padding-top: 100%;
   position: relative;
   border-radius: 8px;
-  background-color: #dfdfdf6d;
+  background-image: linear-gradient(to right bottom, #f413e1, #ff006f, #ff6400, #b4a400, #03c413);
+  align-self: center;
 
+}
+
+.cardTitle {
+  height: 60px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -191,7 +204,16 @@ h1 {
   }
 }
 
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .titleText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 500;
   font-size: 1.2rem;
 }
