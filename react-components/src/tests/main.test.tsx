@@ -4,8 +4,8 @@ import '@testing-library/jest-dom';
 
 import MainPage from '../components/main';
 
-test('main page should contain it`s title', () => {
+test("main page should contain it's title", () => {
   render(<MainPage />);
-  const errorCode = screen.getByText(/Main Page/i);
-  expect(errorCode).toBeInTheDocument();
+  const mainPageTitle = screen.getByText(/Main Page/i);
+  expect(mainPageTitle).toBeInTheDocument();
 });
