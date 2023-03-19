@@ -16,7 +16,7 @@ class Header extends React.Component<HeaderProps> {
         <div className="wrapper">
           <div className="headerContent">
             <nav className="navbar">
-              <NavLink to="/main" className="linkBtn btnMain">
+              <NavLink to="/" className="linkBtn btnMain">
                 Main
               </NavLink>
               <NavLink to="/about" className="linkBtn btnAbout">
