@@ -13,7 +13,7 @@
     "test-coverage": "jest --coverage"
   },
   "lint-staged": {
-    "*.{js,ts, tsx}": "eslint --fix",
+    "*.{js,ts,tsx}": "eslint --fix",
     "*.{js,ts,css,md,tsx}": "prettier --write",
     "*.html": [
       "eslint",
@@ -21,19 +21,13 @@
     ],
     "*.ts": "eslint --cache --fix"
   },
-  "env": {
-    "test": {
-      "presets": [
-        "react-app"
-      ]
-    }
-  },
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.{ts,tsx}"
     ],
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "preset": "ts-jest"
   },
   "dependencies": {
     "react": "^18.2.0",
