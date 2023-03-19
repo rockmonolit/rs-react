@@ -1,3 +1,6 @@
+@import './components/card.scss';
+@import './components/header.scss';
+
 html {
   box-sizing: border-box;
 }
@@ -36,14 +39,14 @@ a {
   text-decoration: inherit;
   margin: 0;
   transition: color 0.25s;
-}
 
-a:hover {
-  color: #535bf2;
-}
+  &:hover {
+    color: #535bf2;
+  }
 
-a.active {
-  color: rgb(255, 255, 255);
+  &.active {
+    color: rgb(255, 255, 255);
+  }
 }
 
 hr {
@@ -80,59 +83,10 @@ h1 {
   line-height: 1.1;
 }
 
-.header {
-  display: flex;
-  width: 100%;
-  height: 5rem;
-  margin: 0 auto;
-  padding: 0 2rem;
-  background-color: #747bff;
-  box-sizing: border-box;
-  justify-content: space-around;
-  -webkit-box-shadow: 1px 11px 15px 0px rgba(34, 60, 80, 0.2);
-  -moz-box-shadow: 1px 11px 15px 0px rgba(34, 60, 80, 0.2);
-  box-shadow: 1px 11px 15px 0px rgba(34, 60, 80, 0.2);
-}
-
-.headerContent {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.headerText {
-  font-weight: 700;
-  color: white;
-}
-
-.navbar {
-  display: flex;
-  gap: 0.5rem;
-  align-self: center;
-}
-
 .searchBar {
   display: flex;
   gap: 1rem;
   padding: 0.25rem;
-}
-
-.card {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 8px;
-  justify-content: center;
-  background-color: #dfdfdf6d;
-  cursor: pointer;
-  transition: 0.25s;
-  width: 13rem;
-}
-
-.card:hover {
-  scale: 1.01;
 }
 
 .searchCard {
@@ -179,29 +133,6 @@ h1 {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.cardsContainer {
-  display: flex;
-  gap: 1rem;
-  width: 100%;
-  flex-direction: revert;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.cardImage {
-  width: 200px;
-  padding-top: 100%;
-  position: relative;
-  border-radius: 8px;
-  background-image: linear-gradient(to right bottom, #f413e1, #ff006f, #ff6400, #b4a400, #03c413);
-  align-self: center;
-
-}
-
-.cardTitle {
-  height: 60px;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -215,27 +146,4 @@ h1 {
   button {
     background-color: #f9f9f9;
   }
-}
-
-.cardContent {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.titleText {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 1.2rem;
-}
-
-.cardAuthor {
-  font-style: italic;
-  text-align: justify;
-}
-
-.cardText {
-  text-align: justify;
 }
