@@ -18,12 +18,12 @@ class SearchBar extends React.Component<unknown, SearchBarState> {
   componentDidMount() {
     const prevInputValue = localStorage.getItem('input');
     if (prevInputValue) {
-      this.setState({ inputValue: JSON.parse(prevInputValue) });
+      this.setState({ inputValue: prevInputValue });
     }
   }
 
   componentWillUnmount() {
-    localStorage.setItem('input', JSON.stringify(this.state.inputValue));
+    localStorage.setItem('input', this.state.inputValue);
   }
 
   render() {
