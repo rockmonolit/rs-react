@@ -13,7 +13,6 @@ class SearchBar extends React.Component<unknown, SearchBarState> {
 
   saveInput: React.FormEventHandler<HTMLInputElement> = (event) => {
     this.setState({ inputValue: event.currentTarget.value });
-    localStorage.setItem('input', JSON.stringify(event.currentTarget.value));
   };
 
   componentDidMount() {
