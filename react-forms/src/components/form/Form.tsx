@@ -1,21 +1,27 @@
-import React, { useRef } from 'react';
+import React, { createRef } from 'react';
 
 export type FormProps = {
-  input: string;
+  value: string;
 };
 
 class Form extends React.Component<unknown, FormProps> {
-  private nameInput: React.RefObject<HTMLInputElement>;
-  private dateInput: React.RefObject<HTMLInputElement>;
-  private checkInput: React.RefObject<HTMLInputElement>;
-  private radioInput: React.RefObject<HTMLInputElement>;
+  nameInput: React.RefObject<HTMLInputElement> = createRef();
+  dateInput: React.RefObject<HTMLInputElement> = createRef();
+  checkInput: React.RefObject<HTMLInputElement> = createRef();
+  radioInputAutobot: React.RefObject<HTMLInputElement> = createRef();
+  radioInputDecepticon: React.RefObject<HTMLInputElement> = createRef();
+  selectInput: React.RefObject<HTMLSelectElement> = createRef();
+  fileInput: React.RefObject<HTMLInputElement> = createRef();
   constructor(props: FormProps) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.nameInput = React.createRef();
-    this.dateInput = React.createRef();
-    this.checkInput = React.createRef();
-    this.radioInput = React.createRef();
+    this.nameInput;
+    this.dateInput;
+    this.checkInput;
+    this.radioInputAutobot;
+    this.radioInputDecepticon;
+    this.selectInput;
+    this.fileInput;
   }
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
@@ -27,24 +33,51 @@ class Form extends React.Component<unknown, FormProps> {
 
   render() {
     return (
-      <form className='formContent' onSubmit={this.handleSubmit}>
-        <label className='formField'>
+      <form className="formContent" onSubmit={this.handleSubmit}>
+        <label className="formField">
           Name:
           <input type="text" ref={this.nameInput} />
         </label>
-        <label className='formField'>
+        <label className="formField">
           Date of creation:
           <input type="date" ref={this.dateInput} />
         </label>
-        <label className='formField'>
+        <label className="formField">
           Do you have a weapon:
-          <input type='checkbox' ref={this.checkInput} />
+          <input type="checkbox" ref={this.checkInput} />
         </label>
-        <label className='formField'>
+        <div className="formField">
           Which side do you prefer:
-          <input type='radio' ref={this.radioInput} />
+          <div className="radioOptions">
+            <label>
+              <input ref={this.radioInputAutobot} type="radio" name="radioCheck" value="autobot" />
+              Autobot
+            </label>
+            <label>
+              <input
+                ref={this.radioInputDecepticon}
+                type="radio"
+                name="radioCheck"
+                value="decepticon"
+              />
+              Decepticon
+            </label>
+          </div>
+        </div>
+        <label className="formField">
+          Your home planet:
+          <select name="selectPlanet" ref={this.selectInput}>
+            <option value="akalo">Akalo</option>
+            <option value="ceti">Ceti Alpha Seven</option>
+            <option value="delta">Delta Pavonis IV</option>
+            <option value="gigantion">Gigantion</option>
+          </select>
         </label>
-        <input className='button' type="submit" value="Submit" />
+        <label className="formField">
+          Upload Your Coolest Holography:
+          <input type="file" ref={this.fileInput} />
+        </label>
+        <input className="button" type="submit" value="Submit" />
       </form>
     );
   }
