@@ -1,0 +1,15 @@
+.formContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 25rem;
+}
+
+.formField {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    border-radius: 8px;
+}
