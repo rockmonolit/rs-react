@@ -1,0 +1,16 @@
+.formModal {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    max-width: 70rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    background-color: rgba(255, 255, 255, 0.372);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
