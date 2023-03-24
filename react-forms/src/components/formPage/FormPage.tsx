@@ -9,6 +9,7 @@ function FormPage() {
       <div className="wrapper">
         <h1>Please, fill the form below</h1>
         <Form />
+        <div className="cardsContainer formCardsContainer"></div>
       </div>
     </>
   );

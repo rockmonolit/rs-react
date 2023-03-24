@@ -5,6 +5,7 @@ export type FormProps = {
 };
 
 class Form extends React.Component<unknown, FormProps> {
+  formRef: React.RefObject<HTMLFormElement> = createRef();
   nameInput: React.RefObject<HTMLInputElement> = createRef();
   dateInput: React.RefObject<HTMLInputElement> = createRef();
   checkInput: React.RefObject<HTMLInputElement> = createRef();
@@ -15,6 +16,7 @@ class Form extends React.Component<unknown, FormProps> {
   constructor(props: FormProps) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.formRef;
     this.nameInput;
     this.dateInput;
     this.checkInput;
@@ -26,59 +28,77 @@ class Form extends React.Component<unknown, FormProps> {
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     if (this.nameInput.current) {
-      console.log('Submitted: ' + this.nameInput.current.value);
+      const inputs = {
+        name: this.nameInput.current?.value,
+        date: this.dateInput.current?.value,
+        check: this.checkInput.current?.checked,
+        radio: this.radioInputAutobot.current?.checked
+          ? this.radioInputAutobot.current.value
+          : this.radioInputDecepticon.current?.value,
+        select: this.selectInput.current?.value,
+        file: this.fileInput.current?.value,
+      };
+      console.log(inputs);
+      this.formRef.current?.reset()
       event.preventDefault();
     }
   };
 
   render() {
     return (
-      <form className="formContent" onSubmit={this.handleSubmit}>
-        <label className="formField">
-          Name:
-          <input type="text" ref={this.nameInput} />
-        </label>
-        <label className="formField">
-          Date of creation:
-          <input type="date" ref={this.dateInput} />
-        </label>
-        <label className="formField">
-          Do you have a weapon:
-          <input type="checkbox" ref={this.checkInput} />
-        </label>
-        <div className="formField">
-          Which side do you prefer:
-          <div className="radioOptions">
-            <label>
-              <input ref={this.radioInputAutobot} type="radio" name="radioCheck" value="autobot" />
-              Autobot
-            </label>
-            <label>
-              <input
-                ref={this.radioInputDecepticon}
-                type="radio"
-                name="radioCheck"
-                value="decepticon"
-              />
-              Decepticon
-            </label>
+      <div className="formContainer">
+        <form className="formContent" onSubmit={this.handleSubmit} ref={this.formRef}>
+          <label className="formField">
+            Name:
+            <input type="text" ref={this.nameInput} />
+          </label>
+          <label className="formField">
+            Date of creation:
+            <input type="date" ref={this.dateInput} />
+          </label>
+          <label className="formField">
+            Do you have a weapon:
+            <input type="checkbox" ref={this.checkInput} />
+          </label>
+          <div className="formField">
+            Which side do you prefer:
+            <div className="radioOptions">
+              <label>
+                <input
+                  ref={this.radioInputAutobot}
+                  type="radio"
+                  name="radioCheck"
+                  value="Autobot"
+                />
+                Autobot
+              </label>
+              <label>
+                <input
+                  ref={this.radioInputDecepticon}
+                  type="radio"
+                  name="radioCheck"
+                  value="Decepticon"
+                />
+                Decepticon
+              </label>
+            </div>
           </div>
-        </div>
-        <label className="formField">
-          Your home planet:
-          <select name="selectPlanet" ref={this.selectInput}>
-            <option value="akalo">Akalo</option>
-            <option value="ceti">Ceti Alpha Seven</option>
-            <option value="delta">Delta Pavonis IV</option>
-            <option value="gigantion">Gigantion</option>
-          </select>
-        </label>
-        <label className="formField">
-          Upload Your Coolest Holography:
-          <input type="file" ref={this.fileInput} />
-        </label>
-        <input className="button" type="submit" value="Submit" />
-      </form>
+          <label className="formField">
+            Your home planet:
+            <select name="selectPlanet" ref={this.selectInput}>
+              <option value="akalo">Akalo</option>
+              <option value="ceti">Ceti Alpha Seven</option>
+              <option value="delta">Delta Pavonis IV</option>
+              <option value="gigantion">Gigantion</option>
+            </select>
+          </label>
+          <label className="formField">
+            Upload Your Coolest Holography:
+            <input type="file" ref={this.fileInput} accept="image/png, image/gif, image/jpeg" />
+          </label>
+          <input className="button" type="submit" value="Submit" />
+        </form>
+      </div>
     );
   }
 }
