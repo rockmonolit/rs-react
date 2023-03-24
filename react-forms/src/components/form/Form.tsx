@@ -1,4 +1,5 @@
 import React, { createRef } from 'react';
+import { FormCardProps } from '../formCard/FormCard'
 
 export type FormProps = {
   value: string;
@@ -16,6 +17,7 @@ class Form extends React.Component<unknown, FormProps> {
   constructor(props: FormProps) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validation = this.validation.bind(this);
     this.formRef;
     this.nameInput;
     this.dateInput;
@@ -24,6 +26,39 @@ class Form extends React.Component<unknown, FormProps> {
     this.radioInputDecepticon;
     this.selectInput;
     this.fileInput;
+  }
+
+  validation(props: FormCardProps) {
+    let errorCount = 0;
+
+    const errorMessages = {
+      name: '',
+      date: '',
+      side: '',
+      photo: '',
+    };
+
+    if (props.name.length < 2) {
+      errorMessages.name = 'Name should contain at least 2 characters.';
+      errorCount++;
+    }
+
+    if (props.date.length <= 0) {
+      errorMessages.name = "Don't you forget insert a date?";
+      errorCount++;
+    }
+
+    if (!this.radioInputAutobot.current?.checked && !this.radioInputDecepticon.current?.checked) {
+      errorMessages.side = 'Please, pick a side.';
+      errorCount++;
+    }
+
+    if (!props.picture) {
+      errorMessages.photo = 'Please, upload your greatest Holography.';
+      errorCount++;
+    }
+
+    return errorCount === 0 ? props : errorMessages;
   }
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
@@ -39,7 +74,7 @@ class Form extends React.Component<unknown, FormProps> {
         file: this.fileInput.current?.value,
       };
       console.log(inputs);
-      this.formRef.current?.reset()
+      this.formRef.current?.reset();
       event.preventDefault();
     }
   };
@@ -50,11 +85,11 @@ class Form extends React.Component<unknown, FormProps> {
         <form className="formContent" onSubmit={this.handleSubmit} ref={this.formRef}>
           <label className="formField">
             Name:
-            <input type="text" ref={this.nameInput} />
+            <input type="text" ref={this.nameInput} placeholder="What is your cool name?" />
           </label>
           <label className="formField">
             Date of creation:
-            <input type="date" ref={this.dateInput} />
+            <input type="date" ref={this.dateInput} placeholder="When are you created?" />
           </label>
           <label className="formField">
             Do you have a weapon:
