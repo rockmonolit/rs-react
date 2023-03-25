@@ -2,8 +2,17 @@ import React, { createRef } from 'react';
 import { FormCardProps } from '../formCard/FormCard';
 import FormCard from '../formCard/FormCard';
 
+export type Errors = {
+  name: string;
+  date: string;
+  side: string;
+  planet: string;
+  photo: string;
+};
+
 export type FormProps = {
   cards: FormCardProps[];
+  errorMessages: Errors;
 };
 
 class Form extends React.Component<unknown, FormProps> {
@@ -20,7 +29,10 @@ class Form extends React.Component<unknown, FormProps> {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validation = this.validation.bind(this);
-    this.state = { cards: [] };
+    this.state = {
+      cards: [],
+      errorMessages: { name: '', date: '', side: '', planet: '', photo: '' },
+    };
     this.formRef;
     this.nameInput;
     this.dateInput;
@@ -34,34 +46,36 @@ class Form extends React.Component<unknown, FormProps> {
   validation(props: FormCardProps) {
     let errorCount = 0;
 
-    const errorMessages = {
-      name: '',
-      date: '',
-      side: '',
-      photo: '',
-    };
+    const errors = { name: '', date: '', side: '', planet: '', photo: '' };
 
     if (props.name.length < 2) {
-      errorMessages.name = 'Name should contain at least 2 characters.';
+      errors.name = 'Name should contain at least 2 characters.';
       errorCount++;
     }
 
     if (props.date.length <= 0) {
-      errorMessages.date = "Don't you forget insert a date?";
+      errors.date = "Don't you forget insert a date?";
       errorCount++;
     }
 
     if (!this.radioInputAutobot.current?.checked && !this.radioInputDecepticon.current?.checked) {
-      errorMessages.side = 'Please, pick a side.';
+      errors.side = 'Please, pick a side.';
+      errorCount++;
+    }
+
+    if (!this.selectInput.current?.value) {
+      errors.planet = "Don't forget to choose a planet.";
       errorCount++;
     }
 
     if (!props.picture) {
-      errorMessages.photo = 'Please, upload your greatest Holography.';
+      errors.photo = 'Please, upload your greatest Holography.';
       errorCount++;
     }
 
-    return errorCount === 0 ? props : errorMessages;
+    this.setState({ errorMessages: errors });
+
+    return errorCount === 0;
   }
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
@@ -76,13 +90,14 @@ class Form extends React.Component<unknown, FormProps> {
       picture: this.fileInput.current?.value || '',
     };
 
-    if (this.nameInput.current) {
+    if (this.validation(props)) {
       const prevState = this.state.cards;
       prevState.push(props);
       this.setState({ cards: prevState });
       this.formRef.current?.reset();
       event.preventDefault();
     }
+    event.preventDefault();
   };
 
   render() {
@@ -93,10 +108,12 @@ class Form extends React.Component<unknown, FormProps> {
             <label className="formField">
               Name:
               <input type="text" ref={this.nameInput} placeholder="What is your cool name?" />
+              <span style={{ color: 'red' }}>{this.state.errorMessages.name}</span>
             </label>
             <label className="formField">
               Date of creation:
               <input type="date" ref={this.dateInput} placeholder="When are you created?" />
+              <span style={{ color: 'red' }}>{this.state.errorMessages.date}</span>
             </label>
             <label className="formField">
               Do you have a weapon:
@@ -124,19 +141,31 @@ class Form extends React.Component<unknown, FormProps> {
                   Decepticon
                 </label>
               </div>
+              <span style={{ color: 'red' }}>{this.state.errorMessages.side}</span>
             </div>
             <label className="formField">
               Your home planet:
-              <select name="selectPlanet" ref={this.selectInput} defaultValue="">
+              <select
+                name="selectPlanet"
+                ref={this.selectInput}
+                defaultValue=""
+                placeholder="Select your home planet"
+                autoComplete="off"
+              >
+                <option disabled={true} value="">
+                  --Select your home planet--
+                </option>
                 <option value="Akalo">Akalo</option>
                 <option value="Ceti Alpha Seven">Ceti Alpha Seven</option>
                 <option value="Delta Pavonis IV">Delta Pavonis IV</option>
                 <option value="Gigantion">Gigantion</option>
               </select>
+              <span style={{ color: 'red' }}>{this.state.errorMessages.planet}</span>
             </label>
             <label className="formField">
               Upload Your Coolest Holography:
               <input type="file" ref={this.fileInput} accept="image/png, image/gif, image/jpeg" />
+              <span style={{ color: 'red' }}>{this.state.errorMessages.photo}</span>
             </label>
             <input className="button" type="submit" value="Submit" />
           </form>
