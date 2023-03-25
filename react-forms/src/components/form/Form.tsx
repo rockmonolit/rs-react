@@ -1,6 +1,8 @@
 import React, { createRef } from 'react';
 import { FormCardProps } from '../formCard/FormCard';
 import FormCard from '../formCard/FormCard';
+import FormModal from '../formPage/FormModal';
+
 
 export type Errors = {
   name: string;
@@ -14,6 +16,7 @@ export type Errors = {
 export type FormProps = {
   cards: FormCardProps[];
   errorMessages: Errors;
+  isSubmitted: boolean;
 };
 
 class Form extends React.Component<unknown, FormProps> {
@@ -33,6 +36,7 @@ class Form extends React.Component<unknown, FormProps> {
     this.state = {
       cards: [],
       errorMessages: { name: '', date: '', weapon: '', side: '', planet: '', photo: '' },
+      isSubmitted: false,
     };
     this.formRef;
     this.nameInput;
@@ -78,7 +82,11 @@ class Form extends React.Component<unknown, FormProps> {
       errorCount++;
     }
 
-    if (new Date(props.date) === new Date()) {
+    if (
+      new Date(props.date).getFullYear() === new Date().getFullYear() &&
+      new Date(props.date).getMonth() === new Date().getMonth() &&
+      new Date(props.date).getDate() === new Date().getDate()
+    ) {
       errors.date = 'What does the newborn forgot around here?';
       errorCount++;
     }
@@ -117,7 +125,7 @@ class Form extends React.Component<unknown, FormProps> {
         ? this.radioInputAutobot.current.value
         : this.radioInputDecepticon.current?.value || '',
       homePlanet: this.selectInput.current?.value || '',
-      picture: this.fileInput.current?.value || '',
+      picture: (this.fileInput.current?.value)?.substring((this.fileInput.current?.value).lastIndexOf("\\") + 1) || '',
     };
 
     if (this.validation(props)) {
@@ -125,6 +133,12 @@ class Form extends React.Component<unknown, FormProps> {
       prevState.push(props);
       this.setState({ cards: prevState });
       this.formRef.current?.reset();
+      this.setState({isSubmitted: true});
+      console.log('submitted');
+      setTimeout(() => {
+        this.setState({isSubmitted: false});
+        console.log('UNsubmitted');
+      }, 3000)
       event.preventDefault();
     }
     event.preventDefault();
@@ -133,6 +147,7 @@ class Form extends React.Component<unknown, FormProps> {
   render() {
     return (
       <>
+      {this.state.isSubmitted ? <FormModal /> : ''}
         <div className="formContainer">
           <form className="formContent" onSubmit={this.handleSubmit} ref={this.formRef}>
             <label className="formField">
@@ -193,11 +208,13 @@ class Form extends React.Component<unknown, FormProps> {
               </select>
               <span className="errorText">{this.state.errorMessages.planet}</span>
             </label>
-            <label className="formField">
+            <div className='fileInputContest'>
+            <label className="formField fileUpload">
               Upload Your Coolest Holography:
               <input type="file" ref={this.fileInput} accept="image/png, image/gif, image/jpeg" />
-              <span className="errorText">{this.state.errorMessages.photo}</span>
             </label>
+            <span className="errorText">{this.state.errorMessages.photo}</span>
+            </div>
             <input className="button" type="submit" value="Submit" />
           </form>
         </div>
