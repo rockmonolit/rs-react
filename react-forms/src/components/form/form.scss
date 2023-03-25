@@ -29,3 +29,7 @@ select {
     gap: 1rem;
     justify-content: center;
 }
+.errorText {
+    color: red;
+    white-space: pre-wrap;
+}

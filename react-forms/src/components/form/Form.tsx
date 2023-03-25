@@ -5,6 +5,7 @@ import FormCard from '../formCard/FormCard';
 export type Errors = {
   name: string;
   date: string;
+  weapon: string;
   side: string;
   planet: string;
   photo: string;
@@ -31,7 +32,7 @@ class Form extends React.Component<unknown, FormProps> {
     this.validation = this.validation.bind(this);
     this.state = {
       cards: [],
-      errorMessages: { name: '', date: '', side: '', planet: '', photo: '' },
+      errorMessages: { name: '', date: '', weapon: '', side: '', planet: '', photo: '' },
     };
     this.formRef;
     this.nameInput;
@@ -46,15 +47,44 @@ class Form extends React.Component<unknown, FormProps> {
   validation(props: FormCardProps) {
     let errorCount = 0;
 
-    const errors = { name: '', date: '', side: '', planet: '', photo: '' };
+    const errors = { name: '', date: '', weapon: '', side: '', planet: '', photo: '' };
 
-    if (props.name.length < 2) {
-      errors.name = 'Name should contain at least 2 characters.';
+    if (props.name.length < 2 || props.name.length > 12) {
+      const prevError = errors.name;
+      errors.name =
+        prevError + 'The Name Field should contain at least 2, but no more than 12 characters.\n';
+      errorCount++;
+    }
+
+    if (props.name && !props.name.match(/^[a-zA-Z]+$/)) {
+      const prevError = errors.name;
+      errors.name = prevError + 'Excuse-moi, but only Latin letters are allowed here.\n';
+      errorCount++;
+    }
+
+    if (props.name && !props.name[0].match(/^[A-Z]+$/)) {
+      const prevError = errors.name;
+      errors.name = prevError + 'Do you remember, that your name starts with capital letter?\n';
       errorCount++;
     }
 
     if (props.date.length <= 0) {
       errors.date = "Don't you forget insert a date?";
+      errorCount++;
+    }
+
+    if (new Date(props.date) > new Date()) {
+      errors.date = 'Are you sure that you are from the future?';
+      errorCount++;
+    }
+
+    if (new Date(props.date) === new Date()) {
+      errors.date = 'What does the newborn forgot around here?';
+      errorCount++;
+    }
+
+    if (!props.hasWeapon) {
+      errors.weapon = 'Liar! Each and every cool transformer has a weapon!';
       errorCount++;
     }
 
@@ -108,16 +138,17 @@ class Form extends React.Component<unknown, FormProps> {
             <label className="formField">
               Name:
               <input type="text" ref={this.nameInput} placeholder="What is your cool name?" />
-              <span style={{ color: 'red' }}>{this.state.errorMessages.name}</span>
+              <span className="errorText">{this.state.errorMessages.name}</span>
             </label>
             <label className="formField">
               Date of creation:
               <input type="date" ref={this.dateInput} placeholder="When are you created?" />
-              <span style={{ color: 'red' }}>{this.state.errorMessages.date}</span>
+              <span className="errorText">{this.state.errorMessages.date}</span>
             </label>
             <label className="formField">
               Do you have a weapon:
               <input type="checkbox" ref={this.checkInput} />
+              <span className="errorText">{this.state.errorMessages.weapon}</span>
             </label>
             <div className="formField">
               Which side do you prefer:
@@ -141,7 +172,7 @@ class Form extends React.Component<unknown, FormProps> {
                   Decepticon
                 </label>
               </div>
-              <span style={{ color: 'red' }}>{this.state.errorMessages.side}</span>
+              <span className="errorText">{this.state.errorMessages.side}</span>
             </div>
             <label className="formField">
               Your home planet:
@@ -160,12 +191,12 @@ class Form extends React.Component<unknown, FormProps> {
                 <option value="Delta Pavonis IV">Delta Pavonis IV</option>
                 <option value="Gigantion">Gigantion</option>
               </select>
-              <span style={{ color: 'red' }}>{this.state.errorMessages.planet}</span>
+              <span className="errorText">{this.state.errorMessages.planet}</span>
             </label>
             <label className="formField">
               Upload Your Coolest Holography:
               <input type="file" ref={this.fileInput} accept="image/png, image/gif, image/jpeg" />
-              <span style={{ color: 'red' }}>{this.state.errorMessages.photo}</span>
+              <span className="errorText">{this.state.errorMessages.photo}</span>
             </label>
             <input className="button" type="submit" value="Submit" />
           </form>
