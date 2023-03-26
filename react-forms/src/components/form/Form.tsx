@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import { FormCardProps } from '../formCard/FormCard';
 import FormCard from '../formCard/FormCard';
 import FormModal from '../formPage/FormModal';
+import { convertPictureName, checkFileExtension } from '../../helpers/convertPictureName';
 
 export type Errors = {
   name: string;
@@ -110,6 +111,11 @@ class Form extends React.Component<unknown, FormProps> {
       errorCount++;
     }
 
+    if (props.picture && checkFileExtension(props.picture) === false) {
+      errors.photo = 'Only gif/jpeg/png files are allowed.';
+      errorCount++;
+    }
+
     this.setState({ errorMessages: errors });
 
     return errorCount === 0;
@@ -124,9 +130,7 @@ class Form extends React.Component<unknown, FormProps> {
         ? this.radioInputAutobot.current.value
         : this.radioInputDecepticon.current?.value || '',
       homePlanet: this.selectInput.current?.value || '',
-      picture: this.fileInput.current?.value?.substring(
-        (this.fileInput.current?.value as string).lastIndexOf('\\') + 1
-      ) as string,
+      picture: convertPictureName(this.fileInput.current?.value),
     };
 
     if (this.validation(props)) {
