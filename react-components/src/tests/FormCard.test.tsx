@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import FormCard from '../components/formCard/FormCard';
+import FormCard from '../components/formCard/formCard';
 
 const mockedFormCard = {
   name: 'test name',

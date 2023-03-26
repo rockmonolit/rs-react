@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import Form from '../components/form/Form';
+import Form from '../components/form/form';
 
 test('should render form component', () => {
   const { container } = render(<Form />);

@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
-import { FormCardProps } from '../formCard/FormCard';
-import FormCard from '../formCard/FormCard';
-import FormModal from '../formPage/FormModal';
+import { FormCardProps } from '../formCard/formCard';
+import FormCard from '../formCard/formCard';
+import FormModal from '../formPage/formModal';
 import { convertPictureName, checkFileExtension } from '../../helpers/convertPictureName';
 
 export type Errors = {
@@ -13,13 +13,13 @@ export type Errors = {
   photo: string;
 };
 
-export type FormProps = {
+export type FormState = {
   cards: FormCardProps[];
   errorMessages: Errors;
   isSubmitted: boolean;
 };
 
-class Form extends React.Component<unknown, FormProps> {
+class Form extends React.Component<unknown, FormState> {
   formRef: React.RefObject<HTMLFormElement> = createRef();
   nameInput: React.RefObject<HTMLInputElement> = createRef();
   dateInput: React.RefObject<HTMLInputElement> = createRef();
@@ -29,7 +29,7 @@ class Form extends React.Component<unknown, FormProps> {
   selectInput: React.RefObject<HTMLSelectElement> = createRef();
   fileInput: React.RefObject<HTMLInputElement> = createRef();
 
-  constructor(props: FormProps) {
+  constructor(props: FormState) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validation = this.validation.bind(this);
@@ -38,14 +38,6 @@ class Form extends React.Component<unknown, FormProps> {
       errorMessages: { name: '', date: '', weapon: '', side: '', planet: '', photo: '' },
       isSubmitted: false,
     };
-    this.formRef;
-    this.nameInput;
-    this.dateInput;
-    this.checkInput;
-    this.radioInputAutobot;
-    this.radioInputDecepticon;
-    this.selectInput;
-    this.fileInput;
   }
 
   validation(props: FormCardProps) {
@@ -122,6 +114,7 @@ class Form extends React.Component<unknown, FormProps> {
   }
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
     const props: FormCardProps = {
       name: this.nameInput.current?.value || '',
       date: this.dateInput.current?.value || '',
@@ -142,9 +135,7 @@ class Form extends React.Component<unknown, FormProps> {
       setTimeout(() => {
         this.setState({ isSubmitted: false });
       }, 3000);
-      event.preventDefault();
     }
-    event.preventDefault();
   };
 
   render() {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FormModal from '../components/formPage/FormModal';
+import FormModal from '../components/formPage/formModal';
 
 test('about us should contain specified information', () => {
   expect(FormModal()).toEqual(

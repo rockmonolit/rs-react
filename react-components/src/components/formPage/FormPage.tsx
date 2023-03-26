@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../header';
-import Form from '../form/Form';
+import Form from '../form/form';
 
 function FormPage() {
   return (
