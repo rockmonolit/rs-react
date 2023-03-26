@@ -22,6 +22,9 @@ class Header extends React.Component<HeaderProps> {
               <NavLink to="/about" className="linkBtn btnAbout">
                 About Us
               </NavLink>
+              <NavLink to="/form" className="linkBtn btnAbout">
+                Form
+              </NavLink>
             </nav>
             <p className="currentRoute headerText">Current page: {this.props.currentPage}</p>
           </div>
