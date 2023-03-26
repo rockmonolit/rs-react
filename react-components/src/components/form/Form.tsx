@@ -115,7 +115,7 @@ class Form extends React.Component<unknown, FormState> {
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    const props: FormCardProps = {
+    const newCard: FormCardProps = {
       name: this.nameInput.current?.value || '',
       date: this.dateInput.current?.value || '',
       hasWeapon: this.checkInput.current?.checked || false,
@@ -126,10 +126,8 @@ class Form extends React.Component<unknown, FormState> {
       picture: convertPictureName(this.fileInput.current?.value),
     };
 
-    if (this.validation(props)) {
-      const prevState = this.state.cards;
-      prevState.push(props);
-      this.setState({ cards: prevState });
+    if (this.validation(newCard)) {
+      this.setState({ cards: [...this.state.cards, newCard] });
       this.formRef.current?.reset();
       this.setState({ isSubmitted: true });
       setTimeout(() => {
