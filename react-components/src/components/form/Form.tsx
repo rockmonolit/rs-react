@@ -115,6 +115,7 @@ class Form extends React.Component<unknown, FormState> {
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+
     const newCard: FormCardProps = {
       name: this.nameInput.current?.value || '',
       date: this.dateInput.current?.value || '',
@@ -130,6 +131,7 @@ class Form extends React.Component<unknown, FormState> {
       this.setState({ cards: [...this.state.cards, newCard] });
       this.formRef.current?.reset();
       this.setState({ isSubmitted: true });
+
       setTimeout(() => {
         this.setState({ isSubmitted: false });
       }, 3000);
@@ -149,6 +151,7 @@ class Form extends React.Component<unknown, FormState> {
                 <span className="errorText">{this.state.errorMessages.name}</span>
               )}
             </label>
+
             <label className="formField">
               Date of creation:
               <input type="date" ref={this.dateInput} placeholder="When are you created?" />
@@ -156,6 +159,7 @@ class Form extends React.Component<unknown, FormState> {
                 <span className="errorText">{this.state.errorMessages.date}</span>
               )}
             </label>
+
             <label className="formField">
               Do you have a weapon:
               <input type="checkbox" ref={this.checkInput} />
@@ -163,6 +167,7 @@ class Form extends React.Component<unknown, FormState> {
                 <span className="errorText">{this.state.errorMessages.weapon}</span>
               )}
             </label>
+
             <div className="formField">
               Which side do you prefer:
               <div className="radioOptions">
@@ -189,6 +194,7 @@ class Form extends React.Component<unknown, FormState> {
                 <span className="errorText">{this.state.errorMessages.side}</span>
               )}
             </div>
+
             <label className="formField">
               Your home planet:
               <select
@@ -210,6 +216,7 @@ class Form extends React.Component<unknown, FormState> {
                 <span className="errorText">{this.state.errorMessages.planet}</span>
               )}
             </label>
+
             <div className="fileInputContest">
               <label className="formField fileUpload">
                 Upload Your Coolest Holography:
@@ -219,6 +226,7 @@ class Form extends React.Component<unknown, FormState> {
                 <span className="errorText">{this.state.errorMessages.photo}</span>
               )}
             </div>
+
             <input className="button" type="submit" value="Submit" />
           </form>
         </div>
