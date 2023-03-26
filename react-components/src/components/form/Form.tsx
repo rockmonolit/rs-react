@@ -147,17 +147,23 @@ class Form extends React.Component<unknown, FormState> {
             <label className="formField">
               Name:
               <input type="text" ref={this.nameInput} placeholder="What is your cool name?" />
-              <span className="errorText">{this.state.errorMessages.name}</span>
+              {this.state.errorMessages.name && (
+                <span className="errorText">{this.state.errorMessages.name}</span>
+              )}
             </label>
             <label className="formField">
               Date of creation:
               <input type="date" ref={this.dateInput} placeholder="When are you created?" />
-              <span className="errorText">{this.state.errorMessages.date}</span>
+              {this.state.errorMessages.date && (
+                <span className="errorText">{this.state.errorMessages.date}</span>
+              )}
             </label>
             <label className="formField">
               Do you have a weapon:
               <input type="checkbox" ref={this.checkInput} />
-              <span className="errorText">{this.state.errorMessages.weapon}</span>
+              {this.state.errorMessages.weapon && (
+                <span className="errorText">{this.state.errorMessages.weapon}</span>
+              )}
             </label>
             <div className="formField">
               Which side do you prefer:
@@ -181,7 +187,9 @@ class Form extends React.Component<unknown, FormState> {
                   Decepticon
                 </label>
               </div>
-              <span className="errorText">{this.state.errorMessages.side}</span>
+              {this.state.errorMessages.side && (
+                <span className="errorText">{this.state.errorMessages.side}</span>
+              )}
             </div>
             <label className="formField">
               Your home planet:
@@ -200,14 +208,18 @@ class Form extends React.Component<unknown, FormState> {
                 <option value="Delta Pavonis IV">Delta Pavonis IV</option>
                 <option value="Gigantion">Gigantion</option>
               </select>
-              <span className="errorText">{this.state.errorMessages.planet}</span>
+              {this.state.errorMessages.planet && (
+                <span className="errorText">{this.state.errorMessages.planet}</span>
+              )}
             </label>
             <div className="fileInputContest">
               <label className="formField fileUpload">
                 Upload Your Coolest Holography:
                 <input type="file" ref={this.fileInput} accept="image/png, image/gif, image/jpeg" />
               </label>
-              <span className="errorText">{this.state.errorMessages.photo}</span>
+              {this.state.errorMessages.photo && (
+                <span className="errorText">{this.state.errorMessages.photo}</span>
+              )}
             </div>
             <input className="button" type="submit" value="Submit" />
           </form>
