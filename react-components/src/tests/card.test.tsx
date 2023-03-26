@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import Card from '../components/card';
+import Card from '../components/card/card';
 
 const mockedCard = { author: 'test author', title: 'test title', description: 'test description' };
 
