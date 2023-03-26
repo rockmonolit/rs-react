@@ -1,7 +1,9 @@
 import React from 'react';
 
-function FormModal() {
-  return (
+import FormModal from '../components/formPage/FormModal';
+
+test('about us should contain specified information', () => {
+  expect(FormModal()).toEqual(
     <>
       <div className="formModal">
         <h1>Success!</h1>
@@ -10,6 +12,4 @@ function FormModal() {
       </div>
     </>
   );
-}
-
-export default FormModal;
+});

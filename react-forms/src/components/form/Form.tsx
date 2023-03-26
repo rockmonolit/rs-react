@@ -3,7 +3,6 @@ import { FormCardProps } from '../formCard/FormCard';
 import FormCard from '../formCard/FormCard';
 import FormModal from '../formPage/FormModal';
 
-
 export type Errors = {
   name: string;
   date: string;
@@ -125,7 +124,9 @@ class Form extends React.Component<unknown, FormProps> {
         ? this.radioInputAutobot.current.value
         : this.radioInputDecepticon.current?.value || '',
       homePlanet: this.selectInput.current?.value || '',
-      picture: (this.fileInput.current?.value)?.substring((this.fileInput.current?.value).lastIndexOf("\\") + 1) || '',
+      picture: this.fileInput.current?.value?.substring(
+        (this.fileInput.current?.value as string).lastIndexOf('\\') + 1
+      ) as string,
     };
 
     if (this.validation(props)) {
@@ -133,12 +134,10 @@ class Form extends React.Component<unknown, FormProps> {
       prevState.push(props);
       this.setState({ cards: prevState });
       this.formRef.current?.reset();
-      this.setState({isSubmitted: true});
-      console.log('submitted');
+      this.setState({ isSubmitted: true });
       setTimeout(() => {
-        this.setState({isSubmitted: false});
-        console.log('UNsubmitted');
-      }, 3000)
+        this.setState({ isSubmitted: false });
+      }, 3000);
       event.preventDefault();
     }
     event.preventDefault();
@@ -147,7 +146,7 @@ class Form extends React.Component<unknown, FormProps> {
   render() {
     return (
       <>
-      {this.state.isSubmitted ? <FormModal /> : ''}
+        {this.state.isSubmitted ? <FormModal /> : ''}
         <div className="formContainer">
           <form className="formContent" onSubmit={this.handleSubmit} ref={this.formRef}>
             <label className="formField">
@@ -208,12 +207,12 @@ class Form extends React.Component<unknown, FormProps> {
               </select>
               <span className="errorText">{this.state.errorMessages.planet}</span>
             </label>
-            <div className='fileInputContest'>
-            <label className="formField fileUpload">
-              Upload Your Coolest Holography:
-              <input type="file" ref={this.fileInput} accept="image/png, image/gif, image/jpeg" />
-            </label>
-            <span className="errorText">{this.state.errorMessages.photo}</span>
+            <div className="fileInputContest">
+              <label className="formField fileUpload">
+                Upload Your Coolest Holography:
+                <input type="file" ref={this.fileInput} accept="image/png, image/gif, image/jpeg" />
+              </label>
+              <span className="errorText">{this.state.errorMessages.photo}</span>
             </div>
             <input className="button" type="submit" value="Submit" />
           </form>
