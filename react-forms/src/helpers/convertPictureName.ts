@@ -7,7 +7,7 @@ export function convertPictureName(path: string | undefined) {
 
 export function checkFileExtension(fileName: string) {
   const extension = fileName.substring(fileName.lastIndexOf('.'));
-  if (extension === '.png' || extension === '.gif' || extension === '.jpeg') {
+  if (extension === '.png' || extension === '.gif' || extension === '.jpeg' || extension === '.jpg') {
     return true;
   }
   return false;
