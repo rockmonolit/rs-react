@@ -1,0 +1,60 @@
+.card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    justify-content: center;
+    background-color: #dfdfdf6d;
+    cursor: pointer;
+    transition: 0.25s;
+    width: 13rem;
+
+    &:hover {
+        scale: 1.01;
+    }
+}
+
+.cardsContainer {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    flex-direction: revert;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.cardImage {
+    width: 200px;
+    padding-top: 100%;
+    position: relative;
+    border-radius: 8px;
+    background-image: linear-gradient(to right bottom, #f413e1, #ff006f, #ff6400, #b4a400, #03c413);
+    align-self: center;
+}
+
+.cardTitle {
+    height: 60px;
+}
+
+.cardContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.titleText {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.cardAuthor {
+    font-style: italic;
+    text-align: justify;
+}
+
+.cardText {
+    text-align: justify;
+}

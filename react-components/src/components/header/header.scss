@@ -1,0 +1,34 @@
+.header {
+    display: flex;
+    width: 100%;
+    height: 5rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+    background-color: #747bff;
+    box-sizing: border-box;
+    justify-content: space-around;
+    align-items: center;
+    -webkit-box-shadow: 1px 11px 15px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 1px 11px 15px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 1px 11px 15px 0px rgba(34, 60, 80, 0.2);
+}
+
+.headerContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.headerText {
+    font-weight: 700;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    gap: 0.5rem;
+    align-self: center;
+}
