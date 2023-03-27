@@ -49,7 +49,7 @@ class Form extends React.Component<unknown, FormState> {
       hasWeapon: this.checkInput.current?.checked || false,
       preferredSide: this.radioInputAutobot.current?.checked
         ? this.radioInputAutobot.current.value
-        : this.radioInputDecepticon.current?.value || '',
+        : this.radioInputDecepticon.current?.checked ? this.radioInputDecepticon.current.value : '',
       homePlanet: this.selectInput.current?.value || '',
       picture: convertPictureName(this.fileInput.current?.value),
     };
