@@ -62,6 +62,9 @@ class Form extends React.Component<unknown, FormState> {
       this.setState({ cards: [...this.state.cards, newCard] });
       this.formRef.current?.reset();
       this.setState({ isSubmitted: true });
+      this.setState({
+        errorMessages: { name: '', date: '', weapon: '', side: '', planet: '', photo: '' },
+      });
 
       setTimeout(() => {
         this.setState({ isSubmitted: false });
