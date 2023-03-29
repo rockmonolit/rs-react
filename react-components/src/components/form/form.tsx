@@ -1,4 +1,5 @@
-import React, { createRef } from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FormCardProps } from '../formCard/formCard';
 import FormCard from '../formCard/formCard';
 import FormModal from '../formPage/formModal';
@@ -20,168 +21,182 @@ export type FormState = {
   isSubmitted: boolean;
 };
 
-class Form extends React.Component<unknown, FormState> {
-  formRef: React.RefObject<HTMLFormElement> = createRef();
-  nameInput: React.RefObject<HTMLInputElement> = createRef();
-  dateInput: React.RefObject<HTMLInputElement> = createRef();
-  checkInput: React.RefObject<HTMLInputElement> = createRef();
-  radioInputAutobot: React.RefObject<HTMLInputElement> = createRef();
-  radioInputDecepticon: React.RefObject<HTMLInputElement> = createRef();
-  selectInput: React.RefObject<HTMLSelectElement> = createRef();
-  fileInput: React.RefObject<HTMLInputElement> = createRef();
+function Form() {
+  const [formRef, setFormRef] = useState('');
+  const [nameInput, setNameInput] = useState('');
+  const [dateInput, setDateInput] = useState('');
+  const [checkInput, setCheckInput] = useState(false);
+  const [radioInput, setRadioInput] = useState('');
+  const [selectInput, setSelectInput] = useState('');
+  const [fileInput, setFileInput] = useState('');
+  const [errors, setErrors] = useState({
+    name: '',
+    date: '',
+    weapon: '',
+    side: '',
+    planet: '',
+    photo: '',
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [cards, setCards] = useState([] as FormCardProps[]);
 
-  constructor(props: FormState) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {
-      cards: [],
-      errorMessages: { name: '', date: '', weapon: '', side: '', planet: '', photo: '' },
-      isSubmitted: false,
-    };
-  }
+  const clearForm = function () {
+    setNameInput('');
+    setDateInput('');
+    setCheckInput(false);
+    setRadioInput('');
+    setSelectInput('');
+    setFileInput('');
+  };
 
-  handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
     const newCard: FormCardProps = {
-      name: this.nameInput.current?.value || '',
-      date: this.dateInput.current?.value || '',
-      hasWeapon: this.checkInput.current?.checked || false,
-      preferredSide: this.radioInputAutobot.current?.checked
-        ? this.radioInputAutobot.current.value
-        : this.radioInputDecepticon.current?.checked
-        ? this.radioInputDecepticon.current.value
-        : '',
-      homePlanet: this.selectInput.current?.value || '',
-      picture: convertPictureName(this.fileInput.current?.value),
+      name: nameInput || '',
+      date: dateInput || '',
+      hasWeapon: checkInput || false,
+      preferredSide: radioInput || '',
+      homePlanet: selectInput || '',
+      picture: convertPictureName(fileInput),
     };
 
     const validationResult = validation(newCard);
 
     if (validation(newCard) === 'true') {
-      this.setState({ cards: [...this.state.cards, newCard] });
-      this.formRef.current?.reset();
-      this.setState({ isSubmitted: true });
-      this.setState({
-        errorMessages: { name: '', date: '', weapon: '', side: '', planet: '', photo: '' },
-      });
+      setCards([...cards, newCard]);
+      clearForm();
+      //formRef.current?.reset();
+      setIsSubmitted(true);
+      setErrors({ name: '', date: '', weapon: '', side: '', planet: '', photo: '' });
 
       setTimeout(() => {
-        this.setState({ isSubmitted: false });
+        setIsSubmitted(false);
       }, 3000);
     } else if (validationResult !== 'true') {
-      this.setState({ errorMessages: validationResult });
+      setErrors(validationResult);
     }
   };
 
-  render() {
-    return (
-      <>
-        {this.state.isSubmitted ? <FormModal /> : ''}
-        <div className="formContainer">
-          <form className="formContent" onSubmit={this.handleSubmit} ref={this.formRef}>
-            <label className="formField">
-              Name:
-              <input type="text" ref={this.nameInput} placeholder="What is your cool name?" />
-              {this.state.errorMessages.name && (
-                <span className="errorText">{this.state.errorMessages.name}</span>
-              )}
-            </label>
-
-            <label className="formField">
-              Date of creation:
-              <input type="date" ref={this.dateInput} placeholder="When are you created?" />
-              {this.state.errorMessages.date && (
-                <span className="errorText">{this.state.errorMessages.date}</span>
-              )}
-            </label>
-
-            <label className="formField">
-              Do you have a weapon:
-              <input type="checkbox" ref={this.checkInput} />
-              {this.state.errorMessages.weapon && (
-                <span className="errorText">{this.state.errorMessages.weapon}</span>
-              )}
-            </label>
-
-            <div className="formField">
-              Which side do you prefer:
-              <div className="radioOptions">
-                <label>
-                  <input
-                    ref={this.radioInputAutobot}
-                    type="radio"
-                    name="radioCheck"
-                    value="Autobot"
-                  />
-                  Autobot
-                </label>
-                <label>
-                  <input
-                    ref={this.radioInputDecepticon}
-                    type="radio"
-                    name="radioCheck"
-                    value="Decepticon"
-                  />
-                  Decepticon
-                </label>
-              </div>
-              {this.state.errorMessages.side && (
-                <span className="errorText">{this.state.errorMessages.side}</span>
-              )}
-            </div>
-
-            <label className="formField">
-              Your home planet:
-              <select
-                name="selectPlanet"
-                ref={this.selectInput}
-                defaultValue=""
-                placeholder="Select your home planet"
-                autoComplete="off"
-              >
-                <option disabled={true} value="">
-                  --Select your home planet--
-                </option>
-                <option value="Akalo">Akalo</option>
-                <option value="Ceti Alpha Seven">Ceti Alpha Seven</option>
-                <option value="Delta Pavonis IV">Delta Pavonis IV</option>
-                <option value="Gigantion">Gigantion</option>
-              </select>
-              {this.state.errorMessages.planet && (
-                <span className="errorText">{this.state.errorMessages.planet}</span>
-              )}
-            </label>
-
-            <div className="fileInputContest">
-              <label className="formField fileUpload">
-                Upload Your Coolest Holography:
-                <input type="file" ref={this.fileInput} accept="image/png, image/gif, image/jpeg" />
-              </label>
-              {this.state.errorMessages.photo && (
-                <span className="errorText">{this.state.errorMessages.photo}</span>
-              )}
-            </div>
-
-            <input className="button" type="submit" value="Submit" />
-          </form>
-        </div>
-        <div className="cardsContainer formCardsContainer">
-          {this.state.cards.map((data, index) => (
-            <FormCard
-              name={data.name}
-              date={data.date}
-              hasWeapon={data.hasWeapon}
-              preferredSide={data.preferredSide}
-              homePlanet={data.homePlanet}
-              picture={data.picture}
-              key={index}
+  return (
+    <>
+      {isSubmitted ? <FormModal /> : ''}
+      <div className="formContainer">
+        <form className="formContent" onSubmit={handleSubmit} name="formRef">
+          <label className="formField">
+            Name:
+            <input
+              type="text"
+              placeholder="What is your cool name?"
+              name="nameInput"
+              value={nameInput}
+              onChange={(event) => setNameInput(event.target.value)}
             />
-          ))}
-        </div>
-      </>
-    );
-  }
+            {errors.name && <span className="errorText">{errors.name}</span>}
+          </label>
+
+          <label className="formField">
+            Date of creation:
+            <input
+              type="date"
+              placeholder="When are you created?"
+              name="dateInput"
+              value={dateInput}
+              onChange={(event) => setDateInput(event.target.value)}
+            />
+            {errors.date && <span className="errorText">{errors.date}</span>}
+          </label>
+
+          <label className="formField">
+            Do you have a weapon:
+            <input
+              type="checkbox"
+              name="checkInput"
+              checked={checkInput}
+              onChange={(event) => setCheckInput(event.target.checked)}
+            />
+            {errors.weapon && <span className="errorText">{errors.weapon}</span>}
+          </label>
+
+          <div className="formField">
+            Which side do you prefer:
+            <div className="radioOptions">
+              <label>
+                <input
+                  type="radio"
+                  name="radioCheck"
+                  value="Autobot"
+                  checked={radioInput === 'Autobot'}
+                  onChange={(event) => setRadioInput(event.target.value)}
+                />
+                Autobot
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="radioCheck"
+                  value="Decepticon"
+                  checked={radioInput === 'Decepticon'}
+                  onChange={(event) => setRadioInput(event.target.value)}
+                />
+                Decepticon
+              </label>
+            </div>
+            {errors.side && <span className="errorText">{errors.side}</span>}
+          </div>
+
+          <label className="formField">
+            Your home planet:
+            <select
+              name="selectInput"
+              defaultValue=""
+              placeholder="Select your home planet"
+              autoComplete="off"
+              onChange={(event) => setSelectInput(event.target.value)}
+            >
+              <option disabled={true} value="">
+                --Select your home planet--
+              </option>
+              <option value="Akalo">Akalo</option>
+              <option value="Ceti Alpha Seven">Ceti Alpha Seven</option>
+              <option value="Delta Pavonis IV">Delta Pavonis IV</option>
+              <option value="Gigantion">Gigantion</option>
+            </select>
+            {errors.planet && <span className="errorText">{errors.planet}</span>}
+          </label>
+
+          <div className="fileInputContest">
+            <label className="formField fileUpload">
+              Upload Your Coolest Holography:
+              <input
+                type="file"
+                name="fileInput"
+                accept="image/png, image/gif, image/jpeg"
+                value={fileInput}
+                onChange={(event) => setFileInput(event.target.value)}
+              />
+            </label>
+            {errors.photo && <span className="errorText">{errors.photo}</span>}
+          </div>
+
+          <input className="button" type="submit" value="Submit" />
+        </form>
+      </div>
+      <div className="cardsContainer formCardsContainer">
+        {cards.map((data, index) => (
+          <FormCard
+            name={data.name}
+            date={data.date}
+            hasWeapon={data.hasWeapon}
+            preferredSide={data.preferredSide}
+            homePlanet={data.homePlanet}
+            picture={data.picture}
+            key={index}
+          />
+        ))}
+      </div>
+    </>
+  );
 }
 
 export default Form;
