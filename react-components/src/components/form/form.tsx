@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+//import { useForm } from 'react-hook-form';
 import { FormCardProps } from '../formCard/formCard';
 import FormCard from '../formCard/formCard';
 import FormModal from '../formPage/formModal';
@@ -22,7 +22,7 @@ export type FormState = {
 };
 
 function Form() {
-  const [formRef, setFormRef] = useState('');
+  //const [formRef, setFormRef] = useState('');
   const [nameInput, setNameInput] = useState('');
   const [dateInput, setDateInput] = useState('');
   const [checkInput, setCheckInput] = useState(false);
