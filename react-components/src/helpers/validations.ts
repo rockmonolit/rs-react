@@ -71,3 +71,7 @@ export function validation(props: FormCardProps) {
 
   return errorCount === 0 ? 'true' : errors;
 }
+
+export function startsWithCapital(value: string) {
+  return value[0].match(/^[A-Z]+$/)
+}
