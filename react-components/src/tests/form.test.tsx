@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import Form from '../components/form/form';
@@ -18,4 +18,9 @@ test('should render form component', () => {
 
   const cardsContainer = container.getElementsByClassName('cardsContainer formCardsContainer');
   expect(cardsContainer).toBeTruthy();
+
+  const radioInput: HTMLInputElement = screen.getByLabelText('Decepticon');
+  expect(screen.getByLabelText('Decepticon')).not.toBeChecked();
+  fireEvent.click(radioInput);
+  expect(screen.getByLabelText('Decepticon')).toBeChecked();
 });

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FormCardProps } from '../formCard/formCard';
 import FormCard from '../formCard/formCard';
 import FormModal from '../formPage/formModal';
+import { startsWithCapital, isFutureDate, isPictureFormatValid } from '../../helpers/validations';
 
 export type Errors = {
   name: string;
@@ -96,7 +97,7 @@ function Form() {
                   value: /^[a-zA-Z]+$/i,
                   message: 'Excuse-moi, but only Latin letters are allowed here.',
                 },
-                validate: (value) => value.charAt(0) === value.charAt(0).toUpperCase(),
+                validate: (value) => startsWithCapital(value),
               })}
             />
             {errors.name && errors.name.type === 'required' && (
@@ -129,7 +130,7 @@ function Form() {
                   value: /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
                   message: 'Absolutely invalid date format!',
                 },
-                validate: (value) => new Date(value) > new Date() !== true,
+                validate: (value) => isFutureDate(value),
               })}
               placeholder="When are you created?"
             />
@@ -223,20 +224,7 @@ function Form() {
                     value: true,
                     message: 'Upload your coolest Holography!',
                   },
-                  validate: (value) => {
-                    const item = value[0].name;
-                    const extension = item.substring(item.lastIndexOf('.'));
-                    console.log(value[0]);
-                    if (
-                      extension === '.png' ||
-                      extension === '.gif' ||
-                      extension === '.jpeg' ||
-                      extension === '.jpg'
-                    ) {
-                      return true;
-                    }
-                    return false;
-                  },
+                  validate: (value) => isPictureFormatValid(value),
                 })}
                 accept="image/png, image/gif, image/jpeg"
               />
