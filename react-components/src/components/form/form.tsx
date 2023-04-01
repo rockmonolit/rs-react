@@ -3,8 +3,6 @@ import { useForm } from 'react-hook-form';
 import { FormCardProps } from '../formCard/formCard';
 import FormCard from '../formCard/formCard';
 import FormModal from '../formPage/formModal';
-import { convertPictureName } from '../../helpers/convertPictureName';
-import { validation, startsWithCapital } from '../../helpers/validations';
 
 export type Errors = {
   name: string;
@@ -14,6 +12,15 @@ export type Errors = {
   planet: string;
   photo: string;
 };
+
+export interface NewFormCardProps {
+  name: string;
+  date: string;
+  hasWeapon: boolean;
+  preferredSide: string;
+  homePlanet: string;
+  picture: File[];
+}
 
 export type FormState = {
   cards: FormCardProps[];
@@ -25,6 +32,7 @@ function Form() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -33,68 +41,30 @@ function Form() {
       hasWeapon: false,
       preferredSide: '',
       homePlanet: '',
-      picture: '',
+      picture: [] as File[],
     },
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
   });
-  const [formValues, setFormValues] = useState('');
-  const [nameInput, setNameInput] = useState('');
-  const [dateInput, setDateInput] = useState('');
-  const [checkInput, setCheckInput] = useState(false);
-  const [radioInput, setRadioInput] = useState('');
-  const [selectInput, setSelectInput] = useState('');
-  const [fileInput, setFileInput] = useState('');
-  const [errorso, setErrors] = useState({
-    name: '',
-    date: '',
-    weapon: '',
-    side: '',
-    planet: '',
-    photo: '',
-  });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [cards, setCards] = useState([] as FormCardProps[]);
 
-  const onSubmit = (data: FormCardProps) => {
-    console.log(data);
-  };
-
-  const clearForm = function () {
-    setNameInput('');
-    setDateInput('');
-    setCheckInput(false);
-    setRadioInput('');
-    setSelectInput('');
-    setFileInput('');
-  };
-
-  const handleSubmits: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-
+  const onSubmit = (data: NewFormCardProps) => {
     const newCard: FormCardProps = {
-      name: nameInput || '',
-      date: dateInput || '',
-      hasWeapon: checkInput || false,
-      preferredSide: radioInput || '',
-      homePlanet: selectInput || '',
-      picture: convertPictureName(fileInput),
+      name: data.name,
+      date: data.date,
+      hasWeapon: data.hasWeapon,
+      preferredSide: data.preferredSide,
+      homePlanet: data.homePlanet,
+      picture: data.picture[0].name,
     };
-
-    const validationResult = validation(newCard);
-
-    if (validation(newCard) === 'true') {
-      setCards([...cards, newCard]);
-      clearForm();
-      setIsSubmitted(true);
-      setErrors({ name: '', date: '', weapon: '', side: '', planet: '', photo: '' });
-
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 3000);
-    } else if (validationResult !== 'true') {
-      setErrors(validationResult);
-    }
+    setCards([...cards, newCard]);
+    setIsSubmitted(true);
+    setTimeout(() => {
+      setIsSubmitted(false);
+    }, 3000);
+    reset();
+    console.log(data);
   };
 
   return (
@@ -108,26 +78,41 @@ function Form() {
               type="text"
               placeholder="What is your cool name?"
               {...register('name', {
-                required: true,
-                minLength: 2,
-                maxLength: 12,
-                pattern: /^[a-zA-Z]+$/i,
+                required: {
+                  value: true,
+                  message: 'Name is absolutely required!',
+                },
+                minLength: {
+                  value: 2,
+                  message:
+                    'The Name Field should contain at least 2, but no more than 12 characters.',
+                },
+                maxLength: {
+                  value: 12,
+                  message:
+                    'The Name Field should contain at least 2, but no more than 12 characters.',
+                },
+                pattern: {
+                  value: /^[a-zA-Z]+$/i,
+                  message: 'Excuse-moi, but only Latin letters are allowed here.',
+                },
+                validate: (value) => value.charAt(0) === value.charAt(0).toUpperCase(),
               })}
-              //name="nameInput"
-              //value={nameInput}
-              // onChange={(event) => setNameInput(event.target.value)}
             />
             {errors.name && errors.name.type === 'required' && (
-              <p className="errorText">Name is required.</p>
+              <p className="errorText">{errors.name.message}</p>
             )}
             {errors.name &&
               (errors.name.type === 'minLength' || errors.name.type === 'maxLength') && (
-                <p className="errorText">
-                  The Name Field should contain at least 2, but no more than 12 characters.
-                </p>
+                <p className="errorText">{errors.name.message}</p>
               )}
             {errors.name && errors.name.type === 'pattern' && (
-              <p className="errorText">Excuse-moi, but only Latin letters are allowed here.</p>
+              <p className="errorText">{errors.name.message}</p>
+            )}
+            {errors.name && errors.name.type === 'validate' && (
+              <p className="errorText">
+                Do you remember, that your name starts with capital letter?
+              </p>
             )}
           </label>
 
@@ -136,20 +121,26 @@ function Form() {
             <input
               type="date"
               {...register('date', {
-                required: true,
-                pattern: /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
+                required: {
+                  value: true,
+                  message: "Don't you forget insert a date?",
+                },
+                pattern: {
+                  value: /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
+                  message: 'Absolutely invalid date format!',
+                },
+                validate: (value) => new Date(value) > new Date() !== true,
               })}
               placeholder="When are you created?"
-              // name="dateInput"
-              // value={dateInput}
-              // onChange={(event) => setDateInput(event.target.value)}
             />
-            {/* {errorso.date && <span className="errorText">{errorso.date}</span>} */}
             {errors.date && errors.date.type === 'required' && (
-              <p className="errorText">Don't you forget insert a date?</p>
+              <p className="errorText">{errors.date.message}</p>
             )}
             {errors.date && errors.date.type === 'pattern' && (
-              <p className="errorText">Absolutely invalid date format!</p>
+              <p className="errorText">{errors.date.message}</p>
+            )}
+            {errors.date && errors.date.type === 'validate' && (
+              <p className="errorText">Are you sure that you are from the future?</p>
             )}
           </label>
 
@@ -158,14 +149,14 @@ function Form() {
             <input
               type="checkbox"
               {...register('hasWeapon', {
-                required: true,
+                required: {
+                  value: true,
+                  message: 'Liar! Each and every cool transformer has a weapon!',
+                },
               })}
-              //name="checkInput"
-              //checked={checkInput}
-              //onChange={(event) => setCheckInput(event.target.checked)}
             />
             {errors.hasWeapon && errors.hasWeapon.type === 'required' && (
-              <p className="errorText">Liar! Each and every cool transformer has a weapon!</p>
+              <p className="errorText">{errors.hasWeapon.message}</p>
             )}
           </label>
 
@@ -176,27 +167,26 @@ function Form() {
                 <input
                   type="radio"
                   {...register('preferredSide', { required: true })}
-                  //name="radioCheck"
-                  // value="Autobot"
-                  //checked={radioInput === 'Autobot'}
-                  //onChange={(event) => setRadioInput(event.target.value)}
+                  value="Autobot"
                 />
                 Autobot
               </label>
               <label>
                 <input
                   type="radio"
-                  {...register('preferredSide', { required: true })}
-                 // name="radioCheck"
-                  //value="Decepticon"
-                  //checked={radioInput === 'Decepticon'}
-                  //onChange={(event) => setRadioInput(event.target.value)}
+                  {...register('preferredSide', {
+                    required: {
+                      value: true,
+                      message: "It's time to choose a side!",
+                    },
+                  })}
+                  value="Decepticon"
                 />
                 Decepticon
               </label>
             </div>
             {errors.preferredSide && errors.preferredSide.type === 'required' && (
-              <p className="errorText">It's time to choose a side!</p>
+              <p className="errorText">{errors.preferredSide.message}</p>
             )}
           </div>
 
@@ -206,11 +196,9 @@ function Form() {
               {...register('homePlanet', {
                 required: true,
               })}
-              // name="selectInput"
               defaultValue=""
               placeholder="Select your home planet"
               autoComplete="off"
-              // onChange={(event) => setSelectInput(event.target.value)}
             >
               <option disabled={true} value="">
                 --Select your home planet--
@@ -231,16 +219,33 @@ function Form() {
               <input
                 type="file"
                 {...register('picture', {
-                  required: true,
+                  required: {
+                    value: true,
+                    message: 'Upload your coolest Holography!',
+                  },
+                  validate: (value) => {
+                    const item = value[0].name;
+                    const extension = item.substring(item.lastIndexOf('.'));
+                    console.log(value[0]);
+                    if (
+                      extension === '.png' ||
+                      extension === '.gif' ||
+                      extension === '.jpeg' ||
+                      extension === '.jpg'
+                    ) {
+                      return true;
+                    }
+                    return false;
+                  },
                 })}
-                //name="fileInput"
                 accept="image/png, image/gif, image/jpeg"
-                // value={fileInput}
-                // onChange={(event) => setFileInput(event.target.value)}
               />
             </label>
             {errors.picture && errors.picture.type === 'required' && (
-              <p className="errorText">Upload your coolest Holography!</p>
+              <p className="errorText">{errors.picture.message}</p>
+            )}
+            {errors.picture && errors.picture.type === 'validate' && (
+              <p className="errorText">Only gif/jpeg/jpg/png files are allowed.</p>
             )}
           </div>
 
