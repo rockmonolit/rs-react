@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 function SearchBar() {
-  const [inputValue, setInputValue] = useState(() => {
-    const savedInputValue = localStorage.getItem('inputValue');
-    return savedInputValue || '';
-  });
+  const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
 
   useEffect(() => {
     localStorage.setItem('inputValue', '');

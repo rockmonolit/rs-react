@@ -49,7 +49,7 @@ function Form() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [cards, setCards] = useState([] as FormCardProps[]);
+  const [cards, setCards] = useState<FormCardProps[]>([]);
 
   const onSubmit = (data: NewFormCardProps) => {
     const newCard: FormCardProps = {
@@ -73,7 +73,7 @@ function Form() {
 
   return (
     <>
-      {isSubmitted ? <FormModal /> : ''}
+      {isSubmitted && <FormModal />}
       <div className="formContainer">
         <form className="formContent" onSubmit={handleSubmit(onSubmit)} name="formRef">
           <label className="formField">
