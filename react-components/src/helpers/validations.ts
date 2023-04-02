@@ -20,7 +20,6 @@ export function isDateToday(value: string) {
 export function isPictureFormatValid(value: File[]) {
   const item = value[0].name;
   const extension = item.substring(item.lastIndexOf('.'));
-  console.log(value[0]);
   if (
     extension === '.png' ||
     extension === '.gif' ||

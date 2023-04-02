@@ -47,6 +47,7 @@ function Form() {
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
   });
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [cards, setCards] = useState([] as FormCardProps[]);
 
@@ -59,13 +60,15 @@ function Form() {
       homePlanet: data.homePlanet,
       picture: data.picture[0].name,
     };
+
     setCards([...cards, newCard]);
     setIsSubmitted(true);
+
     setTimeout(() => {
       setIsSubmitted(false);
     }, 3000);
+
     reset();
-    console.log(data);
   };
 
   return (
@@ -240,6 +243,7 @@ function Form() {
           <input className="button" type="submit" value="Submit" />
         </form>
       </div>
+
       <div className="cardsContainer formCardsContainer">
         {cards.map((data, index) => (
           <FormCard
