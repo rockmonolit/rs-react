@@ -1,53 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-interface SearchBarState {
-  inputValue: string;
-}
+function SearchBar() {
+  const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
 
-class SearchBar extends React.Component<unknown, SearchBarState> {
-  constructor(props: SearchBarState) {
-    super(props);
-    this.state = { inputValue: '' };
-    this.saveInput = this.saveInput.bind(this);
-  }
+  useEffect(() => {
+    localStorage.setItem('inputValue', '');
+    return () => {
+      localStorage.setItem('inputValue', inputValue);
+    };
+  }, [inputValue]);
 
-  saveInput: React.FormEventHandler<HTMLInputElement> = (event) => {
-    this.setState({ inputValue: event.currentTarget.value });
-  };
-
-  componentDidMount() {
-    const prevInputValue = localStorage.getItem('input');
-    if (prevInputValue) {
-      this.setState({ inputValue: prevInputValue });
-    }
-  }
-
-  componentWillUnmount() {
-    localStorage.setItem('input', this.state.inputValue);
-  }
-
-  render() {
-    return (
-      <section className="searchBar">
-        <form
-          className="form searchCard"
-          onSubmit={() => {
-            this.setState({ inputValue: '' });
-            localStorage.setItem('input', '');
+  return (
+    <section className="searchBar">
+      <form
+        className="form searchCard"
+        onSubmit={(e) => {
+          e.preventDefault();
+          setInputValue('');
+          localStorage.setItem('inputValue', '');
+        }}
+      >
+        <input
+          type="text"
+          className="input searchCardInput"
+          placeholder="Enter Text Here"
+          value={inputValue}
+          onChange={(event) => {
+            setInputValue(event.target.value);
           }}
-        >
-          <input
-            type="text"
-            className="input searchCardInput"
-            placeholder="Enter Text Here"
-            onInput={this.saveInput}
-            value={this.state.inputValue}
-          />
-          <button className="button">Search</button>
-        </form>
-      </section>
-    );
-  }
+        />
+        <button className="button">Search</button>
+      </form>
+    </section>
+  );
 }
 
 export default SearchBar;
