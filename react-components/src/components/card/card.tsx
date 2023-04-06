@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CharacterInfo } from '../searchbar';
+import CardModal from './cardModal';
 
 export type CardProps = {
   title: string;
@@ -8,24 +9,25 @@ export type CardProps = {
 };
 
 function Card(card: CharacterInfo) {
+  const [isClicked, setIsClicked] = useState(false);
+
   const handleClick = () => {
-    console.log(card);
+    setIsClicked(true);
   };
 
   return (
-    <div className="card">
-      <div className="cardContent">
-        <div
-          className="cardImage"
-          onClick={handleClick}
-          style={{ backgroundImage: `url(${card.image})` }}
-        ></div>
-        <p className="titleText cardTitle">{card.name}</p>
-        <p className="mainText cardAuthor">Species: {card.species}</p>
-        <hr></hr>
-        <p className="mainText cardText">Status: {card.status}</p>
+    <>
+      {isClicked && <CardModal card={card} setIsClicked={setIsClicked} />}
+      <div className="card" onClick={handleClick}>
+        <div className="cardContent">
+          <div className="cardImage" style={{ backgroundImage: `url(${card.image})` }}></div>
+          <p className="titleText cardTitle">{card.name}</p>
+          <p className="mainText cardAuthor">Species: {card.species}</p>
+          <hr></hr>
+          <p className="mainText cardText">Status: {card.status}</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -30,6 +30,15 @@
     border-radius: 8px;
     background-image: linear-gradient(to right bottom, #f413e1, #ff006f, #ff6400, #b4a400, #03c413);
     align-self: center;
+    background-size: cover;
+}
+
+.modalImage {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    border-radius: 8px;
+    background-size: cover;
 }
 
 .cardTitle {
@@ -40,6 +49,11 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+}
+
+.modalContent {
+    display: flex;
+    gap: 1rem;
 }
 
 .titleText {
@@ -57,4 +71,35 @@
 
 .cardText {
     text-align: justify;
+}
+
+.modal {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    min-width: 500px;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46vw;
+    background-color: rgba(255, 255, 255, 0.873);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 3rem 5rem gray;
+    z-index: 100;
+    animation: fadeIn 0.25s;
+    max-height: 80vh;
+    justify-content: center;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 123rem;
+    background-color: rgba(0, 0, 0, 0.13);
+    backdrop-filter: blur(3px);
+    z-index: 90;
+    animation: fadeIn 0.25s;
 }
