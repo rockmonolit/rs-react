@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
 export interface CharacterInfo {
   id: number;
@@ -21,10 +21,14 @@ export interface CharacterInfo {
   created: string;
 }
 
-function SearchBar() {
+function SearchBar({
+  setCharacterCards,
+}: {
+  setCharacterCards: Dispatch<SetStateAction<CharacterInfo[]>>;
+}) {
   const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
   const [error, setError] = useState(null);
-  const [character, setCharacter] = useState<CharacterInfo[]>([]);
+  const [characters, setCharacters] = useState<CharacterInfo[]>([]);
 
   useEffect(() => {
     localStorage.setItem('inputValue', '');
@@ -43,14 +47,15 @@ function SearchBar() {
       .then((res) => res.json())
       .then(
         (result) => {
-          setCharacter(result.results);
+          setCharacters(result.results);
           return result;
         },
         (error) => {
           setError(error);
+          console.log(error.message);
         }
       )
-      .then((data) => console.log(data.results))
+      .then((characters) => setCharacterCards(characters.results))
       .catch((error) => console.error(error));
   }
 
@@ -59,7 +64,9 @@ function SearchBar() {
       <form
         className="form searchCard"
         onSubmit={(e) => {
-          fetchCharacters();
+          fetchCharacters()
+            .then(() => setCharacterCards(characters))
+            .catch((error) => console.error(error));
           e.preventDefault();
           setInputValue('');
           localStorage.setItem('inputValue', '');
@@ -76,11 +83,7 @@ function SearchBar() {
         />
         <button className="button">Search</button>
       </form>
-      {!error && character && (
-        <p className="mainText cardText">
-          Name: {character.length > 0 && character.map((char) => char.name)}{' '}
-        </p>
-      )}
+      {error && <p className="mainText cardText">Something went wrong: {error}.</p>}
     </section>
   );
 }

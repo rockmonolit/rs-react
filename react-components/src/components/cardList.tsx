@@ -1,17 +1,15 @@
 import React from 'react';
 import Card from './card/card';
-import { getCardsInfo } from '../helpers/getCardsInfo';
+import { CharacterInfo } from './searchbar';
 
-class CardList extends React.Component {
-  render() {
-    return (
-      <div className="cardsContainer">
-        {getCardsInfo().map((card) => {
+function CardList({ cards }: { cards: CharacterInfo[] }) {
+  return (
+    <div className="cardsContainer">
+      {cards &&
+        cards.map((card) => {
           return <Card key={card.id} {...card} />;
         })}
-      </div>
-    );
-  }
+    </div>
+  );
 }
-
 export default CardList;

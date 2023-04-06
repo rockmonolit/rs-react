@@ -1,4 +1,5 @@
 import React from 'react';
+import { CharacterInfo } from '../searchbar';
 
 export type CardProps = {
   title: string;
@@ -6,24 +7,26 @@ export type CardProps = {
   description: string;
 };
 
-class Card extends React.Component<CardProps> {
-  constructor(props: CardProps) {
-    super(props);
-  }
+function Card(card: CharacterInfo) {
+  const handleClick = () => {
+    console.log(card);
+  };
 
-  render() {
-    return (
-      <div className="card">
-        <div className="cardContent">
-          <div className="cardImage"></div>
-          <p className="titleText cardTitle">{this.props.title}</p>
-          <p className="mainText cardAuthor">{this.props.author}</p>
-          <hr></hr>
-          <p className="mainText cardText">{this.props.description}</p>
-        </div>
+  return (
+    <div className="card">
+      <div className="cardContent">
+        <div
+          className="cardImage"
+          onClick={handleClick}
+          style={{ backgroundImage: `url(${card.image})` }}
+        ></div>
+        <p className="titleText cardTitle">{card.name}</p>
+        <p className="mainText cardAuthor">Species: {card.species}</p>
+        <hr></hr>
+        <p className="mainText cardText">Status: {card.status}</p>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Card;
