@@ -11,6 +11,7 @@ function MainPage() {
       <Header currentPage="Main" />
       <div className="wrapper">
         <h1>Main Page</h1>
+        <p className="mainText">Please, type the name of the character you`d like to find</p>
         <SearchBar setCharacterCards={setCharacterCards} />
         <CardList cards={characterCards} />
       </div>

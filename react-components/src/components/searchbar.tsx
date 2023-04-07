@@ -27,7 +27,8 @@ function SearchBar({
   setCharacterCards: Dispatch<SetStateAction<CharacterInfo[]>>;
 }) {
   const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [characters, setCharacters] = useState<CharacterInfo[]>([]);
 
   useEffect(() => {
@@ -38,25 +39,33 @@ function SearchBar({
   }, [inputValue]);
 
   useEffect(() => {
-    fetchCharacters();
+    fetchCharacters('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function fetchCharacters() {
-    fetch(`https://rickandmortyapi.com/api/character/?name=${inputValue}`)
-      .then((res) => res.json())
+  async function fetchCharacters(value: string) {
+    fetch(`https://rickandmortyapi.com/api/character/?name=${value}`)
+      .then((res) => {
+        setLoading(true);
+        if (res.status === 404) {
+          setError('Nothing was found =(\n Please, try again!');
+        }
+        return res.json();
+      })
       .then(
         (result) => {
+          setLoading(false);
           setCharacters(result.results);
           return result;
         },
         (error) => {
-          setError(error);
-          console.log(error.message);
+          setError(error.message);
         }
       )
       .then((characters) => setCharacterCards(characters.results))
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.log(error.message);
+      });
   }
 
   return (
@@ -64,9 +73,8 @@ function SearchBar({
       <form
         className="form searchCard"
         onSubmit={(e) => {
-          fetchCharacters()
-            .then(() => setCharacterCards(characters))
-            .catch((error) => console.error(error));
+          setError('');
+          fetchCharacters(inputValue).then(() => setCharacterCards(characters));
           e.preventDefault();
           setInputValue('');
           localStorage.setItem('inputValue', '');
@@ -83,7 +91,8 @@ function SearchBar({
         />
         <button className="button">Search</button>
       </form>
-      {error && <p className="mainText cardText">Something went wrong: {error}.</p>}
+      {loading && <p className="titleText cardTitle loading">Loading. Please, wait.</p>}
+      {error && <p className="titleText cardTitle errorText">{error}</p>}
     </section>
   );
 }
