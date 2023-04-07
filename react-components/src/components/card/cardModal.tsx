@@ -8,13 +8,19 @@ function CardModal({
   card: CharacterInfo;
   setIsClicked: Dispatch<SetStateAction<boolean>>;
 }) {
-  const handleClick = () => {
-    setIsClicked(false);
-  };
-
   return (
-    <div className="overlay" onClick={handleClick}>
-      <div className="modal">
+    <div
+      className="overlay"
+      onClick={() => {
+        setIsClicked(false);
+      }}
+    >
+      <div
+        className="modal"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <div className="modalContent">
           <div className="modalImage" style={{ backgroundImage: `url(${card.image})` }}></div>
           <div className="modalInfo">
@@ -26,6 +32,14 @@ function CardModal({
             <p className="mainText cardText">Origin: {card.origin.name}</p>
             <p className="mainText cardText">Gender: {card.gender}</p>
           </div>
+          <p
+            className="titleText closeIcon"
+            onClick={() => {
+              setIsClicked(false);
+            }}
+          >
+            X
+          </p>
         </div>
       </div>
     </div>
