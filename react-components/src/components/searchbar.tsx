@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+//import fetch from 'node-fetch';
 
 export interface CharacterInfo {
   id: number;
