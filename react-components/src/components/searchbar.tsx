@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
-//import fetch from 'node-fetch';
+import 'whatwg-fetch';
 
 export interface CharacterInfo {
   id: number;

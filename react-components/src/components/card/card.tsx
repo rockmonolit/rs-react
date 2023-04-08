@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CharacterInfo } from '../searchbar';
 import CardModal from './cardModal';
-//import fetch from 'node-fetch';
+import 'whatwg-fetch';
 
 export type CardProps = {
   title: string;
