@@ -24,6 +24,8 @@ export async function fetchApiCharacters(
         setError('Nothing was found =(\n Please, try again!');
         localStorage.setItem('inputValue', '');
         localStorage.setItem('savedInputValue', '');
+      } else if (res.status !== 404) {
+        setError('');
       }
       return res.json();
     })
