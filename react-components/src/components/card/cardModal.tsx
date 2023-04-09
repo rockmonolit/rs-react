@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { CharacterInfo } from '../searchbar';
+import { CharacterInfo } from '../../types/types';
 
 function CardModal({
   card,

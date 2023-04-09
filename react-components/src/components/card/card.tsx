@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { CharacterInfo } from '../searchbar';
+import { CharacterInfo } from '../../types/types';
 import CardModal from './cardModal';
+import { fetchApiCharacter } from '../../api/apiCalls';
 import 'whatwg-fetch';
 
 export type CardProps = {
@@ -17,26 +18,9 @@ function Card(card: CharacterInfo) {
 
   const handleClick = async () => {
     setLoading(true);
-    await fetchCharacter();
+    await fetchApiCharacter(card.id, { setLoading, setModalContent, setError });
     setIsClicked(true);
   };
-
-  async function fetchCharacter() {
-    fetch(`https://rickandmortyapi.com/api/character/${card.id}`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setLoading(false);
-          setModalContent(result);
-        },
-        (error) => {
-          setError(error.message);
-        }
-      )
-      .catch((error) => {
-        console.log(error.message);
-      });
-  }
 
   return (
     <>

@@ -1,33 +1,9 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormCardProps } from '../formCard/formCard';
+import { FormCardProps, NewFormCardProps } from '../../types/types';
 import FormCard from '../formCard/formCard';
 import FormModal from '../formPage/formModal';
 import { startsWithCapital, isFutureDate, isPictureFormatValid } from '../../helpers/validations';
-
-export type Errors = {
-  name: string;
-  date: string;
-  weapon: string;
-  side: string;
-  planet: string;
-  photo: string;
-};
-
-export interface NewFormCardProps {
-  name: string;
-  date: string;
-  hasWeapon: boolean;
-  preferredSide: string;
-  homePlanet: string;
-  picture: File[];
-}
-
-export type FormState = {
-  cards: FormCardProps[];
-  errorMessages: Errors;
-  isSubmitted: boolean;
-};
 
 function Form() {
   const {

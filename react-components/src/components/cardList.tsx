@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './card/card';
-import { CharacterInfo } from './searchbar';
+import { CharacterInfo } from '../types/types';
 
 function CardList({ cards }: { cards: CharacterInfo[] }) {
   return (

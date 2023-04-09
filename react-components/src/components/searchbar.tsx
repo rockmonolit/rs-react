@@ -1,26 +1,7 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { fetchApiCharacters } from '../api/apiCalls';
+import { CharacterInfo } from '../types/types';
 import 'whatwg-fetch';
-
-export interface CharacterInfo {
-  id: number;
-  name: string;
-  status: string;
-  species: string;
-  type: string;
-  gender: string;
-  origin: {
-    name: string;
-    url: string;
-  };
-  location: {
-    name: string;
-    url: string;
-  };
-  image: string;
-  episode: string[];
-  url: string;
-  created: string;
-}
 
 function SearchBar({
   setCharacterCards,
@@ -28,57 +9,53 @@ function SearchBar({
   setCharacterCards: Dispatch<SetStateAction<CharacterInfo[]>>;
 }) {
   const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
+  const [savedInputValue, setSavedInputValue] = useState(
+    localStorage.getItem('savedInputValue') || ''
+  );
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [characters, setCharacters] = useState<CharacterInfo[]>([]);
 
   useEffect(() => {
-    localStorage.setItem('inputValue', '');
-    return () => {
-      localStorage.setItem('inputValue', inputValue);
-    };
-  }, [inputValue]);
+    fetchApiCharacters(savedInputValue, {
+      setCharacterCards,
+      setError,
+      setLoading,
+      setCharacters,
+    });
+  }, [error, savedInputValue, setCharacterCards]);
 
-  useEffect(() => {
-    fetchCharacters('');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function fetchCharacters(value: string) {
-    fetch(`https://rickandmortyapi.com/api/character/?name=${value}`)
-      .then((res) => {
-        setLoading(true);
-        if (res.status === 404) {
-          setError('Nothing was found =(\n Please, try again!');
-        }
-        return res.json();
-      })
-      .then(
-        (result) => {
-          setLoading(false);
-          setCharacters(result.results);
-          return result;
-        },
-        (error) => {
-          setError(error.message);
-        }
-      )
-      .then((characters) => setCharacterCards(characters.results))
-      .catch((error) => {
-        console.log(error.message);
-      });
-  }
+  const showWarning = () => {
+    setError('Search field is empty.\n Try to write something before submitting.');
+    setTimeout(() => {
+      setError('');
+    }, 3000);
+  };
 
   return (
     <section className="searchBar">
       <form
         className="form searchCard"
         onSubmit={(e) => {
-          setError('');
-          fetchCharacters(inputValue).then(() => setCharacterCards(characters));
           e.preventDefault();
+          setSavedInputValue(inputValue);
+
+          localStorage.setItem('savedInputValue', inputValue);
+
+          if (!inputValue) {
+            showWarning();
+          }
+
+          localStorage.setItem('inputValue', inputValue);
+
+          fetchApiCharacters(inputValue, {
+            setCharacterCards,
+            setError,
+            setLoading,
+            setCharacters,
+          }).then(() => setCharacterCards(characters));
+
           setInputValue('');
-          localStorage.setItem('inputValue', '');
         }}
       >
         <input
