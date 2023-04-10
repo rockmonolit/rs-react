@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '@testing-library/jest-dom';
 
-import { startsWithCapital, isFutureDate, isDateToday } from '../helpers/validations';
+import { startsWithCapital, isFutureDate, isDateToday, isPictureFormatValid } from '../helpers/validations';
 
 const mockFileName = 'Test';
 const mockDate = '2099-01-01';
@@ -20,4 +20,10 @@ test('should check whether date is future date', () => {
 test('should check whether date is today', () => {
   const date = isDateToday(mockTodayDate);
   expect(date).not.toBeTruthy();
+});
+
+test('should validate file format', () => {
+  const file = new File([""], 'test.png');
+  const isValid = isPictureFormatValid([file]);
+  expect(isValid).toBeTruthy();
 });

@@ -1,13 +1,5 @@
 import React from 'react';
-
-export interface FormCardProps {
-  name: string;
-  date: string;
-  hasWeapon: boolean;
-  preferredSide: string;
-  homePlanet: string;
-  picture: string;
-}
+import { FormCardProps } from '../../types/types';
 
 class FormCard extends React.Component<FormCardProps> {
   constructor(props: FormCardProps) {
