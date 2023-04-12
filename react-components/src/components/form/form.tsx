@@ -5,7 +5,14 @@ import FormCard from '../formCard/formCard';
 import FormModal from '../formPage/formModal';
 import { startsWithCapital, isFutureDate, isPictureFormatValid } from '../../helpers/validations';
 
+import type { RootState } from '../../store/store'
+import { useSelector, useDispatch } from 'react-redux'
+import { addFormCard } from '../../slices/formCardSlice';
+
 function Form() {
+  const createdCards = useSelector((state: RootState) => state.formCards.formCards)
+  const dispatch = useDispatch()
+
   const {
     register,
     handleSubmit,
@@ -25,7 +32,7 @@ function Form() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [cards, setCards] = useState<FormCardProps[]>([]);
+  //const [cards, setCards] = useState<FormCardProps[]>([]);
 
   const onSubmit = (data: NewFormCardProps) => {
     const newCard: FormCardProps = {
@@ -37,7 +44,9 @@ function Form() {
       picture: data.picture[0].name,
     };
 
-    setCards([...cards, newCard]);
+    dispatch(addFormCard(newCard));
+
+    //setCards([...cards, newCard]);
     setIsSubmitted(true);
 
     setTimeout(() => {
@@ -221,7 +230,7 @@ function Form() {
       </div>
 
       <div className="cardsContainer formCardsContainer">
-        {cards.map((data, index) => (
+        {createdCards.map((data, index) => (
           <FormCard
             name={data.name}
             date={data.date}
