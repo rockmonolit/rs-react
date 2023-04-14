@@ -1,12 +1,10 @@
 import React from 'react';
 import Card from './card/card';
-import { CharacterInfo } from '../types/types';
 import type { RootState } from '../store/store';
 import { useSelector } from 'react-redux';
 
-const reduxSearchResults = useSelector((state: RootState) => state.searchResults.searchResults);
-
 function CardList() {
+  const reduxSearchResults = useSelector((state: RootState) => state.searchResults.searchResults);
   return (
     <div className="cardsContainer">
       {reduxSearchResults &&
