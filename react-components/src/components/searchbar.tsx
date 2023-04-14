@@ -12,7 +12,6 @@ function SearchBar() {
 
   const [err, setError] = useState('');
 
-  //const reduxSearchResults = useSelector((state: RootState) => state.searchResults.searchResults);
   const dispatch = useDispatch();
 
   const [trigger, { isFetching, isError, error }] =
@@ -20,7 +19,16 @@ function SearchBar() {
 
   useEffect(() => {
     trigger(reduxInputValue);
-  }, [reduxInputValue]);
+  }, [reduxInputValue, trigger]);
+
+  useEffect(() => {
+    if (!reduxInputValue) {
+      trigger('').then((res) => {
+        console.log('here');
+        if (res.data) dispatch(addSearchResults(res.data.results));
+      });
+    }
+  }, [dispatch, trigger, reduxInputValue]);
 
   const showWarning = () => {
     setError('Search field is empty.\n Try to write something before submitting.');
@@ -37,7 +45,9 @@ function SearchBar() {
           e.preventDefault();
           dispatch(addInputValue(inputValue));
           trigger(inputValue).then((res) => {
-            res.data ? dispatch(addSearchResults(res.data.results)) : dispatch(addSearchResults([]))
+            res.data
+              ? dispatch(addSearchResults(res.data.results))
+              : dispatch(addSearchResults([]));
           });
 
           if (!inputValue) {

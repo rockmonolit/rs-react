@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 //import counterReducer from '../features/counter/counterSlice'
 
 export default configureStore({
@@ -6,5 +6,5 @@ export default configureStore({
     // searchText: searchTextReducer,
     //searchResults: searchResultsReducer,
     // formCards: formCardsReducer
-  }
-})
+  },
+});

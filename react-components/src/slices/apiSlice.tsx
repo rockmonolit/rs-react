@@ -11,8 +11,8 @@ export const rickApi = createApi({
       query: (name) => `?name=${name}`,
     }),
     getCharacterById: builder.query<CharacterInfo, number>({
-        query: (id) => `${id}`,
-      }),
+      query: (id) => `${id}`,
+    }),
   }),
 });
 

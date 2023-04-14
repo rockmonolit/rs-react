@@ -5,13 +5,13 @@ import FormCard from '../formCard/formCard';
 import FormModal from '../formPage/formModal';
 import { startsWithCapital, isFutureDate, isPictureFormatValid } from '../../helpers/validations';
 
-import type { RootState } from '../../store/store'
-import { useSelector, useDispatch } from 'react-redux'
+import type { RootState } from '../../store/store';
+import { useSelector, useDispatch } from 'react-redux';
 import { addFormCard } from '../../slices/formCardSlice';
 
 function Form() {
-  const createdCards = useSelector((state: RootState) => state.formCards.formCards)
-  const dispatch = useDispatch()
+  const createdCards = useSelector((state: RootState) => state.formCards.formCards);
+  const dispatch = useDispatch();
 
   const {
     register,

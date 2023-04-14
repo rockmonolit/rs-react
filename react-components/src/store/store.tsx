@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import formReducer from '../slices/formCardSlice';
-import { setupListeners } from '@reduxjs/toolkit/query';
 import { rickApi } from '../slices/apiSlice';
 import searchTextReducer from '../slices/searchTextSlice';
 import searchResultsReducer from '../slices/searchResultsSlice';

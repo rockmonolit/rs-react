@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CardList from './cardList';
 import SearchBar from './searchbar';
 import Header from './header/header';
