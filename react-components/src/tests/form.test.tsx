@@ -4,8 +4,15 @@ import '@testing-library/jest-dom';
 
 import Form from '../components/form/form';
 
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
+
 test('should render form component', () => {
-  const { container } = render(<Form />);
+  const { container } = render(
+    <Provider store={store}>
+      <Form />
+    </Provider>
+  );
 
   expect(screen.getByRole('checkbox')).toBeInTheDocument();
   expect(screen.getByLabelText('Autobot')).toBeInTheDocument();

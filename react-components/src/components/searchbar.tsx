@@ -24,7 +24,6 @@ function SearchBar() {
   useEffect(() => {
     if (!reduxInputValue) {
       trigger('').then((res) => {
-        console.log('here');
         if (res.data) dispatch(addSearchResults(res.data.results));
       });
     }

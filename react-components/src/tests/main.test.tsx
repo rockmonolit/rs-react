@@ -5,13 +5,18 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 
 import MainPage from '../components/main';
+import { Provider } from 'react-redux';
+import { store } from '../store/store'
+
 
 test('should render main page component with cards', async () => {
   render(
     <BrowserRouter>
-      <Routes>
-        <Route path="*" element={<MainPage />}></Route>
-      </Routes>
+      <Provider store={store}>
+        <Routes>
+          <Route path="*" element={<MainPage />}></Route>
+        </Routes>
+      </Provider>
     </BrowserRouter>
   );
   expect(screen.getByText('Main Page')).toBeInTheDocument();
