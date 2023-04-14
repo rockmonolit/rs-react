@@ -32,7 +32,6 @@ function Form() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  //const [cards, setCards] = useState<FormCardProps[]>([]);
 
   const onSubmit = (data: NewFormCardProps) => {
     const newCard: FormCardProps = {
@@ -46,7 +45,6 @@ function Form() {
 
     dispatch(addFormCard(newCard));
 
-    //setCards([...cards, newCard]);
     setIsSubmitted(true);
 
     setTimeout(() => {

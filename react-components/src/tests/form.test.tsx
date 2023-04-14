@@ -30,4 +30,14 @@ test('should render form component', () => {
   expect(screen.getByLabelText('Decepticon')).not.toBeChecked();
   fireEvent.click(radioInput);
   expect(screen.getByLabelText('Decepticon')).toBeChecked();
+
+  const weaponCheck = container.getElementsByClassName('formField');
+  expect(weaponCheck).toBeTruthy();
+  const weaponInput = screen.getByLabelText('Do you have a weapon:');
+  expect(screen.getByLabelText('Do you have a weapon:')).not.toBeChecked();
+  fireEvent.click(weaponInput);
+  expect(screen.getByLabelText('Do you have a weapon:')).toBeChecked();
+
+  const submitBtn = screen.getByRole('button', { name: /submit/i });
+  expect(submitBtn).toBeInTheDocument();
 });

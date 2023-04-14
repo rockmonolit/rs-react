@@ -6,8 +6,7 @@ import userEvent from '@testing-library/user-event';
 
 import MainPage from '../components/main';
 import { Provider } from 'react-redux';
-import { store } from '../store/store'
-
+import { store } from '../store/store';
 
 test('should render main page component with cards', async () => {
   render(
