@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { rickApi } from '../slices/apiSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { addInputValue } from '../slices/searchTextSlice';
-import { addSearchResults } from '../slices/searchResultsSlice';
+import { updateInputValue } from '../slices/searchTextSlice';
+import { updateSearchResults } from '../slices/searchResultsSlice';
 import type { RootState } from '../store/store';
 import 'whatwg-fetch';
 
@@ -24,7 +24,9 @@ function SearchBar() {
   useEffect(() => {
     if (!reduxInputValue) {
       trigger('').then((res) => {
-        if (res.data) dispatch(addSearchResults(res.data.results));
+        if (res.data) {
+          dispatch(updateSearchResults(res.data.results));
+        }
       });
     }
   }, [dispatch, trigger, reduxInputValue]);
@@ -42,18 +44,16 @@ function SearchBar() {
         className="form searchCard"
         onSubmit={(e) => {
           e.preventDefault();
-          dispatch(addInputValue(inputValue));
+          dispatch(updateInputValue(inputValue));
           trigger(inputValue).then((res) => {
             res.data
-              ? dispatch(addSearchResults(res.data.results))
-              : dispatch(addSearchResults([]));
+              ? dispatch(updateSearchResults(res.data.results))
+              : dispatch(updateSearchResults([]));
           });
 
           if (!inputValue) {
             showWarning();
           }
-
-          setInputValue('');
         }}
       >
         <input

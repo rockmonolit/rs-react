@@ -39,5 +39,4 @@ test('should render card modal', async () => {
   expect(await screen.findByText(/test location name/i)).toBeInTheDocument();
   await userEvent.click(screen.getByText('X'));
   expect(await screen.queryByText(/test location name/i)).not.toBeInTheDocument();
-  screen.debug();
 });

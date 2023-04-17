@@ -13,11 +13,11 @@ export const searchTextSlice = createSlice({
   name: 'searchText',
   initialState,
   reducers: {
-    addInputValue: (state, action: PayloadAction<string>) => {
+    updateInputValue: (state, action: PayloadAction<string>) => {
       state.inputValue = action.payload;
     },
   },
 });
 
-export const { addInputValue } = searchTextSlice.actions;
+export const { updateInputValue } = searchTextSlice.actions;
 export default searchTextSlice.reducer;

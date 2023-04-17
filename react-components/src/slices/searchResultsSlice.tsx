@@ -14,11 +14,11 @@ export const searchResultsSlice = createSlice({
   name: 'searchResults',
   initialState,
   reducers: {
-    addSearchResults: (state, action: PayloadAction<CharacterInfo[]>) => {
+    updateSearchResults: (state, action: PayloadAction<CharacterInfo[]>) => {
       state.searchResults = action.payload;
     },
   },
 });
 
-export const { addSearchResults } = searchResultsSlice.actions;
+export const { updateSearchResults } = searchResultsSlice.actions;
 export default searchResultsSlice.reducer;

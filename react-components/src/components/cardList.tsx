@@ -4,11 +4,11 @@ import type { RootState } from '../store/store';
 import { useSelector } from 'react-redux';
 
 function CardList() {
-  const reduxSearchResults = useSelector((state: RootState) => state.searchResults.searchResults);
+  const searchResults = useSelector((state: RootState) => state.searchResults.searchResults);
   return (
     <div className="cardsContainer">
-      {reduxSearchResults &&
-        reduxSearchResults.map((card) => {
+      {searchResults &&
+        searchResults.map((card) => {
           return <Card key={card.id} {...card} />;
         })}
     </div>
