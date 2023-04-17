@@ -4,8 +4,15 @@ import '@testing-library/jest-dom';
 
 import Form from '../components/form/form';
 
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
+
 test('should render form component', () => {
-  const { container } = render(<Form />);
+  const { container } = render(
+    <Provider store={store}>
+      <Form />
+    </Provider>
+  );
 
   expect(screen.getByRole('checkbox')).toBeInTheDocument();
   expect(screen.getByLabelText('Autobot')).toBeInTheDocument();
@@ -23,4 +30,14 @@ test('should render form component', () => {
   expect(screen.getByLabelText('Decepticon')).not.toBeChecked();
   fireEvent.click(radioInput);
   expect(screen.getByLabelText('Decepticon')).toBeChecked();
+
+  const weaponCheck = container.getElementsByClassName('formField');
+  expect(weaponCheck).toBeTruthy();
+  const weaponInput = screen.getByLabelText('Do you have a weapon:');
+  expect(screen.getByLabelText('Do you have a weapon:')).not.toBeChecked();
+  fireEvent.click(weaponInput);
+  expect(screen.getByLabelText('Do you have a weapon:')).toBeChecked();
+
+  const submitBtn = screen.getByRole('button', { name: /submit/i });
+  expect(submitBtn).toBeInTheDocument();
 });

@@ -1,29 +1,35 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { fetchApiCharacters } from '../api/apiCalls';
-import { CharacterInfo } from '../types/types';
+import React, { useState, useEffect } from 'react';
+import { rickApi } from '../slices/apiSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateInputValue } from '../slices/searchTextSlice';
+import { updateSearchResults } from '../slices/searchResultsSlice';
+import type { RootState } from '../store/store';
 import 'whatwg-fetch';
 
-function SearchBar({
-  setCharacterCards,
-}: {
-  setCharacterCards: Dispatch<SetStateAction<CharacterInfo[]>>;
-}) {
-  const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
-  const [savedInputValue, setSavedInputValue] = useState(
-    localStorage.getItem('savedInputValue') || ''
-  );
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [characters, setCharacters] = useState<CharacterInfo[]>([]);
+function SearchBar() {
+  const reduxInputValue = useSelector((state: RootState) => state.searchText.inputValue);
+  const [inputValue, setInputValue] = useState(reduxInputValue || '');
+
+  const [err, setError] = useState('');
+
+  const dispatch = useDispatch();
+
+  const [trigger, { isFetching, isError, error }] =
+    rickApi.endpoints.getCharacterByName.useLazyQuery();
 
   useEffect(() => {
-    fetchApiCharacters(savedInputValue, {
-      setCharacterCards,
-      setError,
-      setLoading,
-      setCharacters,
-    });
-  }, [error, savedInputValue, setCharacterCards]);
+    trigger(reduxInputValue);
+  }, [reduxInputValue, trigger]);
+
+  useEffect(() => {
+    if (!reduxInputValue) {
+      trigger('').then((res) => {
+        if (res.data) {
+          dispatch(updateSearchResults(res.data.results));
+        }
+      });
+    }
+  }, [dispatch, trigger, reduxInputValue]);
 
   const showWarning = () => {
     setError('Search field is empty.\n Try to write something before submitting.');
@@ -38,24 +44,16 @@ function SearchBar({
         className="form searchCard"
         onSubmit={(e) => {
           e.preventDefault();
-          setSavedInputValue(inputValue);
-
-          localStorage.setItem('savedInputValue', inputValue);
+          dispatch(updateInputValue(inputValue));
+          trigger(inputValue).then((res) => {
+            res.data
+              ? dispatch(updateSearchResults(res.data.results))
+              : dispatch(updateSearchResults([]));
+          });
 
           if (!inputValue) {
             showWarning();
           }
-
-          localStorage.setItem('inputValue', inputValue);
-
-          fetchApiCharacters(inputValue, {
-            setCharacterCards,
-            setError,
-            setLoading,
-            setCharacters,
-          }).then(() => setCharacterCards(characters));
-
-          setInputValue('');
         }}
       >
         <input
@@ -69,8 +67,13 @@ function SearchBar({
         />
         <button className="button">Search</button>
       </form>
-      {loading && <p className="titleText cardTitle loading">Loading. Please, wait.</p>}
-      {error && <p className="titleText cardTitle errorText">{error}</p>}
+      {isFetching && <p className="titleText cardTitle loading">Loading. Please, wait.</p>}
+      {err && <p className="titleText cardTitle errorText">{err}</p>}
+      {isError && error && (
+        <p className="titleText cardTitle errorText">
+          Nothing was found: {'status' in error ? error.status : 'Not 404'}
+        </p>
+      )}
     </section>
   );
 }

@@ -1,12 +1,14 @@
 import React from 'react';
 import Card from './card/card';
-import { CharacterInfo } from '../types/types';
+import type { RootState } from '../store/store';
+import { useSelector } from 'react-redux';
 
-function CardList({ cards }: { cards: CharacterInfo[] }) {
+function CardList() {
+  const searchResults = useSelector((state: RootState) => state.searchResults.searchResults);
   return (
     <div className="cardsContainer">
-      {cards &&
-        cards.map((card) => {
+      {searchResults &&
+        searchResults.map((card) => {
           return <Card key={card.id} {...card} />;
         })}
     </div>
