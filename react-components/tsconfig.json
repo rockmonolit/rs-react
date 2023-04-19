@@ -15,6 +15,11 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "setupTests.ts"],
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "include": ["src", "setupTests.ts", "vite.config.ts", "server.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
