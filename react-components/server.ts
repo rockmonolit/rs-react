@@ -1,45 +1,58 @@
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import express from 'express'
-import { createServer as createViteServer } from 'vite'
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import express from 'express';
+import { createServer as createViteServer } from 'vite';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+console.log(__dirname);
 async function createServer() {
-  const app = express()
+  const app = express();
 
   const vite = await createViteServer({
     server: { middlewareMode: true },
-    appType: 'custom'
-  })
+    appType: 'custom',
+  });
 
-  app.use(vite.middlewares)
+  app.use(vite.middlewares);
 
   app.use('*', async (req, res, next) => {
-    const url = req.originalUrl
+    const url = req.originalUrl;
 
     try {
-      let template = fs.readFileSync(
-        path.resolve(__dirname, 'index.html'),
-        'utf-8',
-      )
+      let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
 
-      template = await vite.transformIndexHtml(url, template)
+      template = await vite.transformIndexHtml(url, template);
 
-      const { render } = await vite.ssrLoadModule('/src/ServerApp.tsx')
+      const page = template.split(`<!--ssr-outlet-->`);
 
-      const appHtml = await render(url)
+      const { render } = await vite.ssrLoadModule(`${__dirname}/src/entry-server.tsx`);
 
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+      const { pipe } = await render(url, {
+        onShellReady() {
+          res.write(page[0]);
+          pipe(res);
+        },
 
-      res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
+        onAllReady() {
+          res.write(page[1]);
+          res.end();
+        },
+
+        onError(e: unknown) {
+          console.error(e);
+        },
+      });
     } catch (e) {
-      //vite.ssrFixStacktrace(e)
-      next(e)
+      if (e instanceof Error) {
+        vite.ssrFixStacktrace(e);
+        next(e);
+      }
     }
-  })
-  app.listen(5173)
+  });
+
+  app.listen(3000);
 }
 
-createServer()
+createServer();

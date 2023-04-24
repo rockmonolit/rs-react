@@ -5,16 +5,17 @@ import App from './app';
 import './index.scss';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import './index.scss';
 
-const root = document.getElementById('root') as Element;
+const root = document.getElementById('root') as HTMLElement;
 
 hydrateRoot(
   root,
   <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
+    <Provider store={store}>
+      <BrowserRouter>
         <App />
-      </Provider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
