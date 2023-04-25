@@ -14,15 +14,23 @@
     "skipLibCheck": true,
     "noEmit": true,
     "baseUrl": ".",
+    "types": ["cypress", "node"],
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     },
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
   "ts-node": {
     "esm": true,
     "transpileOnly": true,
-    "experimentalSpecifierResolution": "node",
+    "experimentalSpecifierResolution": "node"
   },
-  "include": ["./src/**/*", "setupTests.ts", "vite.config.ts", "server.ts", "styled.d.ts"],
+  "include": [
+    "./src/**/*",
+    "setupTests.ts",
+    "vite.config.ts",
+    "server.ts",
+    "styled.d.ts",
+    "**/*.ts"
+  ]
 }
