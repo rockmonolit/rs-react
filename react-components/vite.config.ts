@@ -5,9 +5,9 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import istanbul from 'vite-plugin-istanbul';
 
 export default defineConfig({
-  // build: {
-  //   sourcemap: true,
-  // },
+  build: {
+    sourcemap: true,
+  },
   plugins: [
     react(),
     tsconfigPaths(),
