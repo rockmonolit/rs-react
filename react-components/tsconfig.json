@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "baseUrl": ".",
-    "types": ["cypress", "node"],
+    "types": ["node", "jest", "vitest/globals", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["src/*"]
     },
@@ -27,10 +27,12 @@
   },
   "include": [
     "./src/**/*",
-    "setupTests.ts",
+    "src/tests/setupTests.ts",
     "vite.config.ts",
     "server.ts",
     "styled.d.ts",
-    "**/*.ts"
-  ]
+    ".eslintrc.cjs",
+    "src/**/*.ts"
+  ],
+  "exclude": ["cypress", "**/*.cy.tsx", "node_modules", "./cypress.config.ts", "**/*.spec.ts"]
 }

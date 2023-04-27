@@ -16,9 +16,6 @@ export default defineConfig({
       requireEnv: false,
     }),
   ],
-  // css: {
-  //   devSourcemap: true,
-  // },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
