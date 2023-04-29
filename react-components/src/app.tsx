@@ -4,7 +4,6 @@ import MainPage from './components/main';
 import AboutPage from './components/about';
 import ErrorPage from './components/404';
 import FormPage from './components/formPage/formPage';
-// import './index.scss';
 
 function App() {
   return (

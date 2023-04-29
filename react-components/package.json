@@ -38,7 +38,9 @@
       "<rootDir>/src/components/*.{ts,tsx}",
       "<rootDir>/src/components/**/*.{ts,tsx}",
       "<rootDir>/src/slices/*.{ts,tsx}",
-      "<rootDir>/src/store/*.{ts,tsx}"
+      "<rootDir>/src/store/*.{ts,tsx}",
+      "<rootDir>/src/helpers/*.{ts,tsx}",
+      "<rootDir>/src/mocks/*.{ts,tsx}"
     ],
     "coverageReporters": [
       "text"
@@ -80,6 +82,9 @@
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.21.4",
     "@babel/preset-react": "^7.18.6",
     "@cypress/code-coverage": "^3.10.4",
     "@redux-devtools/core": "^3.13.1",
