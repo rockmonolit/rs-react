@@ -11,7 +11,7 @@
     "lint:fix": "eslint ./src --ext .tsx --fix",
     "test": "jest",
     "test-coverage": "jest --coverage",
-    "devop": "ts-node server",
+    "devop": "ts-node server.ts",
     "build:client": "vite build --outDir ../dist/client",
     "build:server": "vite build --outDir ../dist/server --ssr ServerApp.tsx",
     "build": "npm run build:client && npm run build:server",
