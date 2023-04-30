@@ -4,7 +4,7 @@
     "strict": true,
     "target": "esnext",
     "lib": ["esnext", "dom"],
-    "types": ["cypress", "node", "@testing-library/cypress"]
+    "types": ["cypress", "node"]
   },
   "files": ["../cypress.config.ts"],
   "include": ["**/*.ts"]
