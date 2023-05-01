@@ -7,12 +7,14 @@ module.exports = {
     'prettier',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
+    "plugin:cypress/recommended"
   ],
   env: {
     browser: true,
     es6: true,
     jest: true,
     node: true,
+    "cypress/globals": true
   },
   root: true,
   parserOptions: {
@@ -22,7 +24,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'react', 'prettier', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'react', 'prettier', 'react-hooks', 'cypress'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
@@ -40,6 +42,12 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    "cypress/no-assigning-return-values": "error",
+    "cypress/no-unnecessary-waiting": "error",
+    "cypress/assertion-before-screenshot": "warn",
+    "cypress/no-force": "warn",
+    "cypress/no-async-tests": "error",
+    "cypress/no-pause": "error"
   },
   settings: {
     react: {

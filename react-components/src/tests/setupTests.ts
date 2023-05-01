@@ -1,7 +1,8 @@
+/// <reference types="@jest/globals" />
 import '@testing-library/jest-dom/extend-expect';
-import { server } from './src/mocks/server';
-import { Provider } from 'react-redux';
-import { store } from './src/store/store';
+import '@testing-library/jest-dom';
+import { server } from '../mocks/server';
+import { afterAll, afterEach, beforeAll } from '@jest/globals';
 import 'whatwg-fetch';
 
 beforeAll(() => {

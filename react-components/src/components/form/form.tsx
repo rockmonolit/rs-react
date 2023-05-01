@@ -180,6 +180,7 @@ function Form() {
           <label className="formField">
             Your home planet:
             <select
+              className="selectInput"
               {...register('homePlanet', {
                 required: true,
               })}
@@ -223,7 +224,7 @@ function Form() {
             )}
           </div>
 
-          <input className="button" type="submit" value="Submit" />
+          <input className="button submitButton" type="submit" value="Submit" />
         </form>
       </div>
 

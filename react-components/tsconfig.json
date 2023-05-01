@@ -13,8 +13,26 @@
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "baseUrl": ".",
+    "types": ["node", "jest", "vitest/globals", "@testing-library/jest-dom"],
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "resolveJsonModule": true
   },
-  "include": ["src", "setupTests.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "include": [
+    "./src/**/*",
+    "src/tests/setupTests.ts",
+    "vite.config.ts",
+    "server.ts",
+    "styled.d.ts",
+    ".eslintrc.cjs",
+    "src/**/*.ts"
+  ],
+  "exclude": ["cypress", "**/*.cy.tsx", "node_modules", "./cypress.config.ts", "**/*.spec.ts"]
 }
